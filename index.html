@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <title>Ну погоди!</title>
+    <link rel="stylesheet" href="style.css" media="all">
+    <link rel="stylesheet" href="style_rec.css" media="all">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    
+    <div id="place_game_out">
+        <div id="records">
+            <div id="top_menu">
+                <div id="rec1">Мои рекорды</div>
+                <button onclick="showGame();">X</button>
+            </div>
+            <div id="table_rec">
+                <table id="recVal">
+                    <tr>
+                        <td>Игра</td>
+                        <td>Очки</td>
+                        <td>Штрафы</td>
+                        <td>Старт</td>
+                        <td>Финиш</td>
+                    </tr>                
+                </table>
+            </div>
+            <div id="post_val">
+                <button id="submit_val" class="but_form" type="button" onclick="storeInfo();">Сохранить</button>
+                <button id="close_form" class="but_form" type="button" onclick="restoreInfo();">Все попытки</button>
+            </div>
+        </div>
+        <div id="place_game_in">
+            <div id="place_game_I">
+                <div id="div_icon">
+                    <span id="span_icon">Инструкция</span>
+                    <button id="icon" style="background-image: url('img/free-icon.png');" onclick="showModal();"></button>
+                </div>
+                <div id="logo"></div>
+                 <div id="but_left">
+                    <div id="img1"></div>
+                    <div id="top_bord" class="borderBut">
+                    <button id="but1" class="for_button" style="position: absolute;"></button>
+                    </div>
+                    <div id="img2"></div>
+                    <div id="bot_bord" class="borderBut">
+                    <button id="but2" class="for_button" style="position: absolute;"></button>     
+                    </div>  
+                 </div>
+            </div>
+            <div id="place_game_II">
+                <div id="place_for_game">
+                    <div class="side left"></div>
+                    <div class="side right"></div>
+                    <div class="side top"></div>
+                    <div class="side bottom"></div>
+                    <div id="for_game_layer1"></div>
+                    <div id="for_game_layer2"></div>                    
+                    <div id="top_label" style="color: #DB2323;" class="for_label">НУ, ПОГОДИ!</div>
+                    <div id="bottom_label" style="color: black;" class="for_label to_bottom">ЭЛЕКТРОНИКА</div>
+                    <div id="for_game_layer3"></div> 
+                    <div id="for_game_layer4"></div>  
+                </div>
+            </div>
+            <div id="img_game" class="img_game_class">
+                <span id="gameA" class="imgsGame var_game">GAME A</span>
+                <span id="gameB" class="imgsGame var_game">GAME B</span>
+                <span id="ochki" class="imgsGame"></span>
+                <span id="curTime" class="imgsGame"></span>
+                <img id="game_over" class='imgsGame' src="img/game_over.png" alt="game_over">
+                <img id="zayac" class='imgsGame' src="img/zayac.png" alt="zayac">
+                <img id="zayac_top" class='imgsGame hend_z' src="img/zayac_hend_top-fotor.png" alt="zayac_hend">
+                <img id="zayac_bottom" class='imgsGame hend_z' src="img/zayac_hend_bottom.png" alt="zayac_hend">
+                <img id="ch_top_left" class='imgsGame chiken' src="img/chiken_top_left.png" alt="chiken_top_left">
+                <img id="ch_top_right" class='imgsGame chiken' src="img/chiken_top_right.png" alt="chiken_top_right">
+                <img id="ch_bottom_left" class='imgsGame chiken' src="img/chiken_bottom_left.png" alt="chiken_bottom_left">
+                <img id="ch_bottom_right" class='imgsGame chiken' src="img/chiken_bottom_right.png" alt="chiken_bottom_right">
+                <img id="volk_right" class='imgsGame volk' src="img/volk1.png" alt="volk_right">
+                <img id="volk_left" class='imgsGame volk' src="img/volk2.png" alt="volk_left">
+                <img id="hend_top_left" class='imgsGame hend' src="img/hend3.png" alt="hend_left">
+                <img id="hend_top_right" class='imgsGame hend' src="img/hend2.png" alt="hend_right">
+                <img id="hend_bottom_right" class='imgsGame hend' src="img/hend1.png" alt="hend_right">
+                <img id="hend_bottom_left" class='imgsGame hend' src="img/hand4.png" alt="hend_left">                
+                <img id="bant1" class='imgsGame bant' src="img/bant.png" alt="bant1">
+                <img id="bant2" class='imgsGame bant' src="img/bant.png" alt="bant2">
+                <img id="bant3" class='imgsGame bant' src="img/bant.png" alt="bant3">
+                <img id="bdyj_right1" class='imgsGame' src="img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_left1" class='imgsGame' src="img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_right2" class='imgsGame' src="img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_left2" class='imgsGame' src="img/bdyj_right.png" alt="bdyj">
+                <img id="cyplenok1_left" class='imgsGame cyplenok_left' src="img/l1.png" alt="cyplenok1_left">
+                <img id="cyplenok2_left" class='imgsGame cyplenok_left' src="img/l2.png" alt="cyplenok2_left">
+                <img id="cyplenok3_left" class='imgsGame cyplenok_left' src="img/l3.png" alt="cyplenok3_left">
+                <img id="cyplenok4_left" class='imgsGame cyplenok_left' src="img/l4.png" alt="cyplenok4_left">
+                <img id="cyplenok4_right" class='imgsGame cyplenok_right' src="img/r1.png" alt="cyplenok4_right">
+                <img id="cyplenok3_right" class='imgsGame cyplenok_right' src="img/r2.png" alt="cyplenok3_right">
+                <img id="cyplenok2_right" class='imgsGame cyplenok_right' src="img/r3.png" alt="cyplenok2_right">
+                <img id="cyplenok1_right" class='imgsGame cyplenok_right' src="img/r4.png" alt="cyplenok1_right">
+                <img id="eg1_left_top" src="img/eg1.png" class="imgsGame eggs eg_left_top" alt="eg1">
+                <img id="eg2_left_top" src="img/eg2.png" class="imgsGame eggs eg_left_top" alt="eg2">
+                <img id="eg3_left_top" src="img/eg3.png" class="imgsGame eggs eg_left_top" alt="eg3">
+                <img id="eg4_left_top" src="img/eg4.png" class="imgsGame eggs eg_left_top" alt="eg4">
+                <img id="eg5_left_top" src="img/eg5.png" class="imgsGame eggs eg_left_top" alt="eg5">
+                <img id="eg1_left_bot" src="img/eg6.png" class="imgsGame eggs eg_left_bot" alt="eg6">
+                <img id="eg2_left_bot" src="img/eg7.png" class="imgsGame eggs eg_left_bot" alt="eg7">
+                <img id="eg3_left_bot" src="img/eg8.png" class="imgsGame eggs eg_left_bot" alt="eg8">
+                <img id="eg4_left_bot" src="img/eg9.png" class="imgsGame eggs eg_left_bot" alt="eg9">
+                <img id="eg5_left_bot" src="img/eg10.png" class="imgsGame eggs eg_left_bot" alt="eg10">      
+                <img id="eg1_right_top" src="img/eg11.png" class="imgsGame eggs eg_right_top" alt="eg11">
+                <img id="eg2_right_top" src="img/eg12.png" class="imgsGame eggs eg_right_top" alt="eg12">
+                <img id="eg3_right_top" src="img/eg13.png" class="imgsGame eggs eg_right_top" alt="eg13">
+                <img id="eg4_right_top" src="img/eg14.png" class="imgsGame eggs eg_right_top" alt="eg14">
+                <img id="eg5_right_top" src="img/eg15.png" class="imgsGame eggs eg_right_top" alt="eg15">
+                <img id="eg1_right_bot" src="img/eg16.png" class="imgsGame eggs eg_right_bot" alt="eg16">
+                <img id="eg2_right_bot" src="img/eg17.png" class="imgsGame eggs eg_right_bot" alt="eg17">
+                <img id="eg3_right_bot" src="img/eg18.png" class="imgsGame eggs eg_right_bot" alt="eg18">
+                <img id="eg4_right_bot" src="img/eg19.png" class="imgsGame eggs eg_right_bot" alt="eg19">
+                <img id="eg5_right_bot" src="img/eg20.png" class="imgsGame eggs eg_right_bot" alt="eg20">                                          
+            </div>
+            <div id="place_game_III">
+                <img id="zvon" src="img/zvon.png" alt="zvonok">
+                <div id="control">
+                    <button id="control_1" class="for_control_button" onclick="control1();"></button>
+                    <div id="control_2"></div>
+                    <div id="control_3" class="for_control_text">игра А</div>
+                    <div id="control_4" class="impuls"></div>
+                    <button id="control_5" class="for_control_button" onclick="control2();" ></button>
+                    <div id="control_6">L</div>
+                    <div id="control_7" class="for_control_text">игра Б</div>
+                    <div id="control_8" class="impuls"></div>
+                    <button id="control_9" class="for_control_button" onclick="for_control3();" ondblclick="show_records();"></button>
+                    <div id="control_10" class="for_control_text">время</div>
+                </div>
+                 <div id="but_right">
+                    <div id="img3"></div>
+                    <div id="top_bord_right" class="borderBut">
+                         <button id="but3" class="for_button" style="position: absolute;"></button>
+                    </div>
+                    <div id="img4"></div>
+                    <div id="bot_bord_right" class="borderBut">
+                        <button id="but4" class="for_button" style="position: absolute;"></button>     
+                    </div>  
+                 </div>               
+            </div>
+        </div>
+     <canvas id="game_canvas" ></canvas>   
+    </div>
+    <dialog id="modal_win">
+        <div style="width: 100%;">
+            <button onclick="closeModal();" style="margin-left: 96%;">X</button>
+        </div>
+        <div id="conteiner" style="width: 100%;">
+            <div class="main">
+                <div class="content_catalog">
+                    <h3 id="mainText"></h3> 
+                </div> 
+            </div>     
+            <div id="slider-container">
+                <div class="slider">
+                    <img src="img/instr/1.png" alt="">
+                    <img src="img/instr/2.png" alt="">
+                    <img src="img/instr/3.png" alt="">
+                    <img src="img/instr/4.png" alt="">
+                    <img src="img/instr/5.png" alt="">
+                    <img src="img/instr/7.png" alt="">
+                    <img src="img/instr/8.png" alt="">
+                    <img src="img/instr/9.png" alt="">
+                </div>
+                <button class="prev-button" aria-label="Посмотреть предыдущий слайд">&lt;</button>
+                <button class="next-button" aria-label="Посмотреть следующий слайд">&gt</button>
+            </div>
+            <div class="min">
+                <div class="slider-container-min">  
+                  <div class="slider-min">
+                    <img src="img/instr/1.png" alt="">
+                    <img src="img/instr/2.png" alt="">
+                    <img src="img/instr/3.png" alt="">
+                    <img src="img/instr/4.png" alt="">
+                    <img src="img/instr/5.png" alt="">
+                    <img src="img/instr/6.png" alt="">
+                    <img src="img/instr/7.png" alt="">
+                    <img src="img/instr/8.png" alt="">
+                    <img src="img/instr/9.png" alt="">
+                  </div> 
+                  <button class="prev-button-min" aria-label="Посмотреть предыдущий слайд">&lt;</button>
+                  <button class="next-button-min" aria-label="Посмотреть следующий слайд">&gt</button>
+                </div>  
+              </div>  
+        </div>
+    </dialog>
+    <audio src="audio/eg.mp3" autoplay="autoplay"></audio>
+    <audio src="audio/bdyj.mp3" autoplay="autoplay"></audio>
+</body>
+<script src="https://fe.it-academy.by/JQ/jquery.js"></script>
+<script src="script01.js"></script>
+</html>
