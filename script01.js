@@ -1164,13 +1164,10 @@ function readReady(callresult) {
       console.log(info.age);
       var len_info = info.age.length;
       console.log(len_info);
-
-      
+     
        // recordVal.numGame.timeStart = info.numGame.timeStart;
       console.log(info);
     //  recStorage.addValue(num, recordVal.numGame);
-      
-      
   }
 }
 
