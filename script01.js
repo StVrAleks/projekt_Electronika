@@ -13,10 +13,32 @@ contr2.addEventListener('touchstart', control2, false);
 contr3.addEventListener('touchstart', for_control3, false);
 const ajaxHandlerScript="https://fe.it-academy.by/AjaxStringStorage2.php";
 let updatePassword;
-const stringName='LOKTEV_TEST_INFO';
+const stringName='GAME_INFO';
 var num =0; //номер игры
-//var numGame = 0;
+
 var recordValNew = {};
+
+//************* */
+function ObjStorageFunc(){
+    
+  const self = this;
+  this.recInfo ={};
+  //сохраняет указанное значение под указанным ключом; если под этим ключом уже сохранено какое-то значение — оно должно быть перезаписано; 
+  self.addValue = function(key, keyVal) 
+      {
+        this.recInfo[key] =  keyVal;
+        console.log(key, this.recInfo);
+      }
+  //возвращает значение по указанному ключу либо undefined;
+  self.getValue = function(key) {return this.recInfo[key];}        
+  
+  //возвращает массив, состоящий из одних ключей. Класс должен быть чистым (не должен использовать никаких глобальных переменных, не должен «пачкать экран»).
+  self.getKeys = function() {return Object.keys(this.recInfo);}        
+}
+
+var recStorage = new ObjStorageFunc();
+
+//****************** */
 var recordVal = {
   numGame:
           {"shtraf" : '',//счет штрафных очков
@@ -47,7 +69,6 @@ function addGame() {
   var sizePart = {};
   var widthEl = 0;
   var heightEl = 0;
- // var screen_size = get_size();
   var newWid = window.innerWidth;
   var newHeig = window.innerHeight;
   var allPartGame = document.getElementById('place_game_out');
@@ -55,7 +76,6 @@ function addGame() {
   if (newWid < 621) {
     widthEl = newWid-20;
     heightEl = newHeig-20;
-   // console.log('tyt', widthEl, heightEl);
     allPartGame.style.width = widthEl + 'px';
     allPartGame.style.height = heightEl + 'px';
    document.getElementById('div_icon').style.display = "none";
@@ -149,7 +169,6 @@ function addGame() {
     var placeII = document.getElementById('place_game_II');
     var placeGameII = placeII.getBoundingClientRect();
 
-  //  var placeIIW = placeGameII.width;
     var placeIIH = placeGameII.height;
     var pnewH = placeIIH;   
     var pnewW = 0.75 * placeIIH;      
@@ -158,16 +177,14 @@ function addGame() {
         placeForGame.style.width = pnewW + 'px';
         placeForGame.style.height = pnewH + 'px'; 
     
-    var newW = 0.87 * pnewH;//placeGame.height; 0.87 
-    var newH =  0.88 * pnewW;//placeGame.width;0.90
+    var newW = 0.87 * pnewH;
+    var newH =  0.88 * pnewW;
 
     var placeLayer4 = document.getElementById('for_game_layer4');
         placeLayer4.style.width = newW + 'px';
         placeLayer4.style.height = newH + 'px';
         placeLayer4.style.transform = 'rotate(90deg) translate(-' + 0.5 * newH + 'px,' + 0.5 * newW + 'px)';
   
-
-  //  var layer4 = placeLayer4.getBoundingClientRect();
     var imgs = document.getElementById('img_game');
         imgs.style.width = newW + 'px';
         imgs.style.height = newH + 'px';
@@ -582,8 +599,7 @@ function control1(event) {
   recordVal.numGame.ball = 0;
 
   var getTime = get_time();
-  recordVal.numGame.timeStart = str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
-  //numGame = num + 1; 
+  recordVal.numGame.timeStart = str0l(getTime.day,2) + '/' + str0l(getTime.month,2) +"_"+ str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
   left_top();
 }
 function control2(event) {
@@ -600,7 +616,7 @@ function control2(event) {
   recordVal.numGame.shtraf = 0;
   recordVal.numGame.ball = 0;
   var getTime = get_time();
-  recordVal.numGame.timeStart = str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
+  recordVal.numGame.timeStart = str0l(getTime.day,2) + '/' + str0l(getTime.month,2) +"_"+ str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
   left_top();
 }
 function control_event(){
@@ -691,6 +707,8 @@ function for_control3(){
 function get_time(){
   const currTime=new Date();
   var full_time = {};
+  full_time.day = currTime.getDay();
+  full_time.month = currTime.getMonth();
   full_time.hour = currTime.getHours();
   full_time.min = currTime.getMinutes();
   full_time.sec = currTime.getSeconds();
@@ -699,14 +717,10 @@ function get_time(){
 }
 function control3() {
   var time_control = get_time();
- // const currTime=new Date();
- 
   var hour = time_control.hour;
   var min = time_control.min;
   var sec = time_control.sec;
   var msec = time_control.msec;
-  //alert(msec +"$"+ sec);
- // console.log('msec', msec);
   if(msec < 0.26)
     msec = 0.25;
     else if(msec > 0.25 && msec < 0.51)
@@ -716,7 +730,6 @@ function control3() {
         else if(msec > 0.75)
           msec = 0;
   document.getElementById('curTime').innerText = str0l(hour,2) + ':' + str0l(min,2)+ ':' + str0l(sec,2);
- // }
  return sec+ msec;
 }
 function str0l(val,len) {
@@ -944,6 +957,10 @@ function move_ags(newEg){
         document.getElementById('game_over').style.opacity = 1;
         var getTime = get_time();
         recordVal.numGame.timeEnd = str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
+        recStorage.addValue(recordVal.numGame.timeStart, recordVal.numGame);
+       // recordValNew = recStorage;
+       // console.log(recordValNew);
+        recordValNew = createObjRec();
         records_game(recordVal);
         return true;
       }             
@@ -971,6 +988,22 @@ function move_cyp(newEg){
 console.log("случилась ошибка: "+error);
 });
 }
+
+
+function createObjRec(){
+  var masKey = [];
+  var record = {};
+  masKey = recStorage.getKeys();
+  console.log(masKey.length); 
+  for(var i=0; i < masKey.length; i++)
+  {
+ //  console.log(masKey[i], recStorage.getValue(masKey[i]));   
+    record[masKey[i]] = recStorage.getValue(masKey[i]);
+  //  console.log(i, record);  
+  }
+return record;
+
+}
 function soundClickEg() {
   var audio = new Audio(); // Создаём новый элемент Audio
   audio.src = 'audio/eg.mp3'; // Указываем путь к звуку "клика"
@@ -981,32 +1014,26 @@ function soundClick() {
   audio.src = 'audio/bdyj.mp3'; // Указываем путь к звуку "клика"
   audio.autoplay = true; // Автоматически запускаем
 }
+//таблица рекордов
 function records_game(record){
   var rec_table = document.querySelectorAll("#recVal tbody")[0];
   var nextTr = document.createElement("tr");
  num = num + 1;
-
- 
+ // recStorage.addValue(num, recordVal.numGame);
   var tdNumer = document.createElement("td");
   tdNumer.innerHTML = num;
 
   var tdBall = document.createElement("td");
   tdBall.innerHTML = record.numGame.ball;
 
-
   var tdShtraf = document.createElement("td");
   tdShtraf.innerHTML = record.numGame.shtraf;
-
 
   var tdStart = document.createElement("td");
   tdStart.innerHTML = record.numGame.timeStart;
   
-
-
   var tdEnd = document.createElement("td");
   tdEnd.innerHTML = record.numGame.timeEnd;
-
-
 
   nextTr.appendChild(tdNumer);
   nextTr.appendChild(tdBall);
@@ -1014,6 +1041,7 @@ function records_game(record){
   nextTr.appendChild(tdStart);
   nextTr.appendChild(tdEnd);
   rec_table.appendChild(nextTr);
+
 }
 function show_records(){
  
@@ -1028,6 +1056,7 @@ function show_records(){
       for(var i=0; i<gameSVG.length; i++)
         gameSVG[i].style.opacity = 0;
 }
+
 function showGame(){
   timerStart = 0;
   var recGame = document.getElementById('records');
@@ -1046,7 +1075,7 @@ recGame.style.zIndex = 1;
   document.getElementById('place_game_in').style.transition = "0.8s ease";  
   document.getElementById('game_canvas').style.transition = "0.8s ease";  
 }
-function volk_move(timerStart){
+/*function volk_move(timerStart){
   if(timerStart === 4)
   {
     var eg1 = document.getElementById("eg5_left_top").style.opacity;
@@ -1073,13 +1102,14 @@ function preview_game(timerStart, sec){
     volk_move(timerStart);
   } 
 
-}
+}*/
 
 
 
 
 //----AJAX
 function storeInfo() {
+   console.log(recordValNew); 
   updatePassword=Math.random();
   $.ajax({
           url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
@@ -1090,12 +1120,13 @@ function storeInfo() {
 }
 
 function lockGetReady(callresult) {
+
   if ( callresult.error!=undefined )
       alert(callresult.error);
   else {
       const info={
           name : 'game',
-          age : recordVal
+          age : recordValNew
       };
 
       $.ajax( {
@@ -1105,7 +1136,7 @@ function lockGetReady(callresult) {
               success : updateReady, error : errorHandler
           }
       );
-      alert('Данные оттправлены на сервер!');
+      alert('Данные отправлены на сервер!');
   }
 }
 
@@ -1128,8 +1159,17 @@ function readReady(callresult) {
   if ( callresult.error!=undefined )
       alert(callresult.error);
   else if ( callresult.result!="" ) {
-      const info=JSON.parse(callresult.result);
-      records_game(info.age);
+      const info = JSON.parse(callresult.result);
+      
+      console.log(info.age);
+      var len_info = info.age.length;
+      console.log(len_info);
+
+      
+       // recordVal.numGame.timeStart = info.numGame.timeStart;
+      console.log(info);
+    //  recStorage.addValue(num, recordVal.numGame);
+      
       
   }
 }
