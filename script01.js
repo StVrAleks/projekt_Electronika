@@ -996,11 +996,8 @@ function createObjRec(){
   masKey = recStorage.getKeys();
   console.log(masKey.length); 
   for(var i=0; i < masKey.length; i++)
-  {
- //  console.log(masKey[i], recStorage.getValue(masKey[i]));   
     record[masKey[i]] = recStorage.getValue(masKey[i]);
-  //  console.log(i, record);  
-  }
+
 return record;
 
 }
@@ -1018,8 +1015,7 @@ function soundClick() {
 function records_game(record){
   var rec_table = document.querySelectorAll("#recVal tbody")[0];
   var nextTr = document.createElement("tr");
- num = num + 1;
- // recStorage.addValue(num, recordVal.numGame);
+  num = num + 1;
   var tdNumer = document.createElement("td");
   tdNumer.innerHTML = num;
 
@@ -1109,7 +1105,7 @@ function preview_game(timerStart, sec){
 
 //----AJAX
 function storeInfo() {
-   console.log(recordValNew); 
+   console.log(recordValNew.length); 
   updatePassword=Math.random();
   $.ajax({
           url : ajaxHandlerScript, type : 'POST', cache : false, dataType:'json',
@@ -1138,6 +1134,7 @@ function lockGetReady(callresult) {
       );
       alert('Данные отправлены на сервер!');
   }
+
 }
 
 function updateReady(callresult) {
@@ -1161,13 +1158,12 @@ function readReady(callresult) {
   else if ( callresult.result!="" ) {
       const info = JSON.parse(callresult.result);
       
-      console.log(info.age);
-      var len_info = info.age.length;
-      console.log(len_info);
-     
+      var len_info = info.age.recordValNew.length;
+      for(var i=0; i<len_info; i++)
+        if(!info.age.recordValNew[0] in recordValNew)
+          records_game(info.age.recordValNew[0]);
        // recordVal.numGame.timeStart = info.numGame.timeStart;
       console.log(info);
-    //  recStorage.addValue(num, recordVal.numGame);
   }
 }
 
