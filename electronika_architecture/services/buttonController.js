@@ -62,4 +62,9 @@ export class GameControls {
         // Волк: показать 0, скрыть 1. Рука: показать 1
         this.setDirection(0, 1, 2);
     }
+    hiddenVolk(){
+        //this.prevent(event);
+        // Волк: показать 0, скрыть 1. Рука: 5 - отсутствует, поэтому не зайдет в ветку по проверке
+        this.setDirection(1, 1, 5);
+    }
 }

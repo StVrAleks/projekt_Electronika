@@ -28,15 +28,27 @@ const DOM = {
     cypR: null,
     hend: null, 
     bant: null,
+    zaya: null,
+    hends: null,
+    curTime: null,
     gameOver: null  
 };
+
+import { add_svg } from '../utils/add_svg.js';
+import { add_canvas } from '../utils/add_canvas.js'; 
+import { gameState } from '../core/gameState.js';
+import { soundClickEg } from '../services/soundClick.js';
+import { GameControls } from '../services/buttonController.js';
+import { GameRandomizer } from '../utils/randomizer.js';
+import { RecordsManager } from '../services/recordsManager.js';
+import { globalClearAllTimers } from  '../services/clearTimer.js';
+import { TimerService } from '../services/timeService.js';
+
 
 window.addEventListener('load', () => {
   add_svg();
   addGame();
 });
-
-import { add_svg } from '../utils/add_svg.js'; 
 
 window.addEventListener('resize', () => {
   addGame();
@@ -48,51 +60,51 @@ window.addEventListener('resize', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const btn1 = document.getElementById('control_1');
     if (btn1) {
-        // Назначаем выполнение нужного метода
+        // Запуск игры при нажатии на кнопку "Игра А"
         btn1.addEventListener('click', (event) => {control1(event);});
         btn1.addEventListener('touchstart', (event) => {control1(event);});
     }
     const btn2 = document.getElementById('control_5');
     if (btn2) {
-        // Назначаем выполнение нужного метода
+        // Запуск игры Б при нажатии на кнопку "Игра Б"
         btn2.addEventListener('click', (event) => {control2(event);});
         btn2.addEventListener('touchstart', (event) => {control2(event);});
     }
 
     const btn3 = document.getElementById('control_9');
     if (btn3) {
-        // Назначаем выполнение нужного метода
+        // при нажатии на кнопку "Время" или двойное нажатие для отображения рекордов
         btn3.addEventListener('click', (event) => {for_control3(event);});
         btn3.addEventListener('dblclick', (event) => {records.showRecords();});  
         btn3.addEventListener('touchstart', (event) => {for_control3(event);});           
     }
     const btn4 = document.getElementById('but_close_modal');
     if (btn4) {
-        // Назначаем выполнение нужного метода
-        btn4.addEventListener('click', (event) => {closeModal();});
-        btn4.addEventListener('touchstart', (event) => {closeModal();});           
+        // Закрываем модальное окно с инструкцией игры
+        btn4.addEventListener('click', (event) => {DOM.instruction.close();});
+        btn4.addEventListener('touchstart', (event) => {DOM.instruction.close();});           
     }   
      const btn5 = document.getElementById('submit_val');
     if (btn5) {
-        // Назначаем выполнение нужного метода
+        // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
         btn5.addEventListener('click', (event) => {records.saveRecord();});
         btn5.addEventListener('touchstart', (event) => {records.saveRecord();});           
     }  
     const btn6 = document.getElementById('close_form');
     if (btn6) {
-        // Назначаем выполнение нужного метода
+        // Обновление таблицы рекордов 
         btn6.addEventListener('click', (event) => {records.refreshTable();});
         btn6.addEventListener('touchstart', (event) => {records.refreshTable();});           
     }  
     const btn7 = document.getElementById('icon');
     if (btn7) {
-        // Назначаем выполнение нужного метода-Инструкция
-        btn7.addEventListener('click', (event) => {showModal();});
-        btn7.addEventListener('touchstart', (event) => {showModal();});           
+        // Нажатие на кнопку 'i' показывает инструкцию пользователя
+        btn7.addEventListener('click', (event) => {DOM.instruction.show();});
+        btn7.addEventListener('touchstart', (event) => {DOM.instruction.show();});           
     } 
     const btn8 = document.getElementById('top_menu_close');
     if (btn8) {
-        // Назначаем выполнение нужного метода - закрыть Рекорды
+        // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
         btn8.addEventListener('click', (event) => {records.closeRecords();});
         btn8.addEventListener('touchstart', (event) => {records.closeRecords();});           
     }     
@@ -124,54 +136,32 @@ DOM.cypR = document.getElementsByClassName('cyplenok_right');
 DOM.hend = document.getElementsByClassName('hend');
 DOM.bant = document.getElementsByClassName('bant');
 DOM.gameOver = document.getElementById('game_over');
+DOM.zaya = document.getElementById('zayac');
+DOM.hends = document.getElementsByClassName('hend_z'); 
+DOM.curTime = document.getElementById('curTime');
 });
-
-
-import { add_canvas } from '../utils/add_canvas.js'; 
-import { soundClickEg } from '../services/soundClick.js';
-import { GameControls } from '../services/buttonController.js';
-import { gameState } from '../core/gameState.js';
-import { GameRandomizer } from '../utils/randomizer.js';
-import { RecordsManager } from '../services/recordsManager.js';
 
 const controls = new GameControls();
 const randomizer = new GameRandomizer();
 const records = new RecordsManager('recVal', 'records');
+const timeInGame = new TimerService();
 
 const soundEg = './audio/eg.mp3';
 const soundBdj = 'audio/bdyj.mp3';
 const stringName='GAME_INFO';
 
-setInterval(get_size, 1000/4);
+gameState.gameIntervalId = setInterval(get_size, 1000/4);
+/*-------------------------------------- */
 /* Вспомогательные и дополняющие функции */
-function getRemInPixels() {
-  return parseFloat(getComputedStyle(document.documentElement).fontSize);
-}
-//работа со временем
-function str0l(val,len) {
-  let strVal=val.toString();
-  while (strVal.length < len)
-      strVal='0'+strVal;
-  return strVal;
-}
-//рандом
-function randomDiap(n,m) {
-  return Math.floor(Math.random()*(m-n+1))+n;
-}
-
-//для работы с инструкцией
-function showModal(){
-  var myDialod = DOM.instruction;//document.getElementById('modal_win');
-  myDialod.show();
-}
-
-function closeModal(){
-  var myDialod = DOM.instruction;//document.getElementById('modal_win');
-  myDialod.close();
+/*-------------------------------------- */
+function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
+  if(gameState.timerStart !=0)
+      return createTimerPromise(numEgg, numEggNext,timerVal, status)
+    return createTimerPromise(numEgg, numEggNext,timerVal, statusFalse)
 }
 /*------------------------------------------------ */
-/*-------------------------------------------------*/
 /* Основная часть */
+/*-------------------------------------------------*/
 function get_size(){
 
   var sec = control3();
@@ -209,6 +199,8 @@ function control1(event) {
         eo.preventDefault();
     }
   control_event();
+  if(gameState.timerStart === 2)
+    globalClearAllTimers();
   DOM.gameA.style.opacity = 1;
   DOM.ochki.style.opacity = 1;
   DOM.control4.style.background = 'red';
@@ -219,8 +211,7 @@ function control1(event) {
   gameState.recordVal.numGame.shtraf = 0;
   gameState.recordVal.numGame.ball = 0;
 
-  const getTime = get_time();
-  gameState.recordVal.numGame.timeStart = str0l(getTime.day,2) + '/' + str0l(getTime.month,2) +"_"+ str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
+  gameState.recordVal.numGame.timeStart = timeInGame.getFormattedTime();
 
   controls.leftTop();
 }
@@ -230,6 +221,9 @@ function control2(event) {
         eo.preventDefault();
     }
   control_event();
+
+  if(gameState.timerStart === 1)
+    globalClearAllTimers();
   DOM.gameB.style.opacity = 1;
   DOM.ochki.style.opacity = 1;
   DOM.control4.style.background = 'black';
@@ -239,8 +233,7 @@ function control2(event) {
  
   gameState.recordVal.numGame.shtraf = 0;
   gameState.recordVal.numGame.ball = 0;
-  const getTime = get_time();
-  gameState.recordVal.numGame.timeStart = str0l(getTime.day,2) + '/' + str0l(getTime.month,2) +"_"+ str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
+  gameState.recordVal.numGame.timeStart = timeInGame.getFormattedTime();
 
   controls.leftTop();
 }
@@ -276,50 +269,33 @@ const eo = event || window.event;
 
 }
 function for_control3(){
-  document.getElementById('curTime').style.opacity = 1;
+
+  DOM.curTime.style.opacity = 1;
+  controls.hiddenVolk(); 
+  if(gameState.timerStart === 1 || gameState.timerStart === 2)
+    globalClearAllTimers();  
   gameState.timerStart = 4;
-}
-function get_time(){
-  const currTime=new Date();
-  var full_time = {};
-  full_time.day = currTime.getDay();
-  full_time.month = currTime.getMonth();
-  full_time.hour = currTime.getHours();
-  full_time.min = currTime.getMinutes();
-  full_time.sec = currTime.getSeconds();
-  full_time.msec = currTime.getMilliseconds()/1000;
-  return full_time;
+     
 }
 
 function control3() {
-  const time_control = get_time();
-  const hour = time_control.hour;
-  const min = time_control.min;
-  const sec = time_control.sec;
-  let msec = time_control.msec;
-  if(msec < 0.26)
-    msec = 0.25;
-    else if(msec > 0.25 && msec < 0.51)
-      msec = 0.5;
-      else if(msec > 0.5 && msec < 0.76)
-        msec = 0.75;
-        else if(msec > 0.75)
-          msec = 0;
-  document.getElementById('curTime').innerText = str0l(hour,2) + ':' + str0l(min,2)+ ':' + str0l(sec,2);
 
- return sec+ msec;
+timeInGame.update(); 
+DOM.curTime.innerText = timeInGame.getFormattedTime();
+return timeInGame.getGameSecond();
+
 }
 
 function createTimerPromiseZaya(obj, obj_next, val, time, result) {
 
   return new Promise( (resolve,reject) => {
       setTimeout( () => {
+        if(!obj || !obj_next)
+          reject("ошибка!!!");         
         gameState.flagZaya = val;
         obj.style.opacity = val;
         obj_next.style.opacity = val;
         resolve(result);
-        if(!obj || !obj_next)
-          reject("ошибка!!!"); 
       }, 1000*time);
   });
 
@@ -327,18 +303,17 @@ function createTimerPromiseZaya(obj, obj_next, val, time, result) {
 function zayac_move(timerStart, sec){
   if(gameState.timerStart === 1 || gameState.timerStart === 2) //если игра запущена
   {
-  const zaya = document.getElementById('zayac');
-  const hends = document.getElementsByClassName('hend_z'); 
-  const rand = randomDiap(0,1); //разные руки зайца
+  const rand = randomizer.getIndexFromTwo();
+  //const rand = randomDiap(0,1); //разные руки зайца
   
   if(sec % 24 === 0)
     {
-      createTimerPromiseZaya(zaya, hends[rand], 1, 4, 2)
+      createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], 1, 4, 2)
       .then( result => {
-        return createTimerPromiseZaya(zaya, hends[rand], 0, 2, 3);
+        return createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], 0, 2, 3);
         })  
       .catch( error => {
-        console.log("случилась ошибка: "+error);
+        console.log("случилась ошибка: " + error);
       });
    }
  }   
@@ -347,30 +322,28 @@ function zayac_move(timerStart, sec){
 function createTimerPromise(obj, obj_next, time, result) {
   return new Promise( (resolve,reject) => {
       setTimeout( () => {
+        if(result === 10)
+          reject("игра окончена!!!");         
         obj.style.opacity = 0;
         obj_next.style.opacity = 1;
         soundClickEg(soundEg)
         resolve(result);
-        if(result === 10)
-          reject("игра окончена!!!"); 
       }, 1000/time);
   });
-
 }
 
 function createTimerPromise2(obj_next, result) {
   return new Promise( (resolve,reject) => {
      setTimeout( () => {
+       if(!obj_next)
+         reject("игра окончена!!!");       
       if(obj_next)
       {
         obj_next.style.opacity = 0;
         resolve(result);
       }
-       if(!obj_next)
-         reject("игра окончена!!!"); 
      }, 1000/2);
  });
-
 }
 
 function gameA(timerStart, sec){
@@ -402,11 +375,12 @@ function gameB(timerStart, sec){
     const num_sklon = {
       0:{0:1, 1:2, 2:3, 3:4}
     };
-    const num = num_sklon[0][randomDiap(0,3)];
+    const randomIndex = randomizer.getNextIndex(); 
+    const num = num_sklon[0][randomIndex];
     if(gameState.recordVal.numGame.shtraf < 3.5)
       game(num);
     else 
-    gameState.timerStart = 0;
+     gameState.timerStart = 0;
   }
 }
 function game(num)
@@ -425,19 +399,13 @@ function move_ags(newEg){
   const egTimer=controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
   createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egTimer/2, 0)
       .then( result => {
-        if(gameState.timerStart !=0)
-          return createTimerPromise((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 2)
-        return createTimerPromise((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 10)
+          controlMove((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 2, 10);
         })   
         .then( result => {
-          if(gameState.timerStart !=0)
-            return createTimerPromise((newEg.eg)[2], (newEg.eg)[3],egTimer/2, 2)
-          return createTimerPromise((newEg.eg)[2], (newEg.eg)[3],egTimer/2, 10)
+            controlMove((newEg.eg)[2], (newEg.eg)[3], egTimer/2, 2, 10);
           })  
           .then( result => {
-            if(gameState.timerStart !=0)
-              return createTimerPromise((newEg.eg)[3], (newEg.eg)[4],egTimer/2, 2)
-            return createTimerPromise((newEg.eg)[3], (newEg.eg)[4],egTimer/2, 10)
+              controlMove((newEg.eg)[3], (newEg.eg)[4], egTimer/2, 2, 10);
             }) 
             .then( result => {
               if(gameState.timerStart !=0)
@@ -451,7 +419,7 @@ function move_ags(newEg){
                     {
                     gameState.recordVal.numGame.ball = gameState.recordVal.numGame.ball + 1;
                     if(gameState.recordVal.numGame.ball === 200 || gameState.recordVal.numGame.ball === 500)  //обнуление штрафов при достижении некоторого кол-ва баллов
-                    gameState.recordVal.numGame.shtraf = 0;
+                       gameState.recordVal.numGame.shtraf = 0;
                     return createTimerPromise2((newEg.eg)[4], 2)
                    }
                 else 
@@ -509,12 +477,14 @@ function move_ags(newEg){
             DOM.bant[2].style.opacity = 1;
       if(gameState.recordVal.numGame.shtraf > 2.5)
       {
-        gameState.timerStart = 0;         
+        gameState.timerStart = 0;        
+        controls.hiddenVolk();
         DOM.gameOver.style.opacity = 1;
-        const getTime = get_time();
-        gameState.recordVal.numGame.timeEnd = str0l(getTime.hour,2) + ':' + str0l(getTime.min,2)+ ':' + str0l(getTime.sec,2);
-        gameState.recStorage.addValue(gameState.recordVal.numGame.timeStart, gameState.recordVal.numGame);
+        //записываем рекорды
+        gameState.recordVal.numGame.timeEnd = timeInGame.getFormattedTime();
+        records.saveRecord();
         records.records_game(gameState.recordVal);
+        globalClearAllTimers();        
         return true;
       }             
         })  
@@ -541,5 +511,4 @@ function move_cyp(newEg){
 console.log("случилась ошибка: "+error);
 });
 }
-
 

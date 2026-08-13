@@ -1,5 +1,5 @@
-import { gameState } from './gameState.js';
-import { add_svg } from './add_svg.js'; // Если нужно перерисовывать при закрытии
+import { gameState } from '../core/gameState.js';
+import { add_svg } from '../utils/add_svg.js'; // Если нужно перерисовывать при закрытии
 
 export class RecordsManager {
     constructor(tableId, containerId, storageKey = 'GAME_INFO') {
@@ -24,7 +24,7 @@ export class RecordsManager {
         currentRecords.push(newRecord);
         localStorage.setItem(this.storageKey, JSON.stringify(currentRecords));
         
-        alert('Рекорд успешно сохранен!');
+     //   alert('Рекорд успешно сохранен!');
         this.refreshTable();
     }
 

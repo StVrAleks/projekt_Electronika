@@ -3,6 +3,7 @@ export const gameState = {
     timerStart: 0,       // Отслеживание режима игры
     flagZaya: 0,         // Появление зайца
     controlSec: 0,
+    gameIntervalId: 0,
 
     // Все ваши игровые рекорды и статистика внутри одного объекта
     recordVal: {

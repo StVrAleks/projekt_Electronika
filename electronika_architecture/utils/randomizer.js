@@ -14,4 +14,8 @@ export class GameRandomizer {
         // Забираем последний элемент из мешка
         return this.bag.pop();
     }
+    getIndexFromTwo(){
+        const m = 0, n = 1; //рандомный выбор числа от 0 до 1
+        return Math.floor(Math.random()*(m-n+1))+n;
+    }
 }
