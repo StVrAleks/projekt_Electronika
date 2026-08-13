@@ -148,7 +148,6 @@ const timeInGame = new TimerService();
 
 const soundEg = './audio/eg.mp3';
 const soundBdj = 'audio/bdyj.mp3';
-const stringName='GAME_INFO';
 
 gameState.gameIntervalId = setInterval(get_size, 1000/4);
 /*-------------------------------------- */
@@ -368,7 +367,7 @@ function gameA(timerStart, sec){
     {
       const randomIndex = randomizer.getNextIndex(); 
       const num = num_sklon[gameState.recordVal.numGame.shtraf][randomIndex];
-      game(num);
+      move_ags(gameState.eg[num]);//game(num);
     } 
     else 
     gameState.timerStart = 0;
@@ -384,22 +383,11 @@ function gameB(timerStart, sec){
     const randomIndex = randomizer.getNextIndex(); 
     const num = num_sklon[0][randomIndex];
     if(gameState.recordVal.numGame.shtraf < 3.5)
-      game(num);
+      move_ags(gameState.eg[num]);//game(num);
     else 
      gameState.timerStart = 0;
   }
 }
-function game(num)
-{
-  const eg = {
-      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
-      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
-      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
-      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
-  }
-  move_ags(eg[num]);
-}
-
 function move_ags(newEg){
   (newEg.eg)[0].style.opacity = 1;
   const egTimer=controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
