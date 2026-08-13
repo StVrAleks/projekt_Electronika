@@ -44,6 +44,7 @@ import { RecordsManager } from '../services/recordsManager.js';
 import { globalClearAllTimers } from  '../services/clearTimer.js';
 import { TimerService } from '../services/timeService.js';
 import { GAME_CONFIG } from '../core/gameConfig.js';
+import { ininit } from '../core/gameInit.js';
 
 
 window.addEventListener('load', () => {
@@ -59,87 +60,48 @@ window.addEventListener('resize', () => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
-    const btn1 = document.getElementById('control_1');
-    if (btn1) {
+  ininit(DOM);
+       const btn1 = document.getElementById('control_1');
         // Запуск игры при нажатии на кнопку "Игра А"
-        btn1.addEventListener('click', (event) => {control1(event);});
-        btn1.addEventListener('touchstart', (event) => {control1(event);});
-    }
+        btn1?.addEventListener('click', (event) => {control1(event);})
+        btn1?.addEventListener('touchstart', (event) => {control1(event);})
+
     const btn2 = document.getElementById('control_5');
-    if (btn2) {
         // Запуск игры Б при нажатии на кнопку "Игра Б"
-        btn2.addEventListener('click', (event) => {control2(event);});
-        btn2.addEventListener('touchstart', (event) => {control2(event);});
-    }
+        btn2?.addEventListener('click', (event) => {control2(event);});
+        btn2?.addEventListener('touchstart', (event) => {control2(event);});
 
     const btn3 = document.getElementById('control_9');
-    if (btn3) {
         // при нажатии на кнопку "Время" или двойное нажатие для отображения рекордов
-        btn3.addEventListener('click', (event) => {for_control3(event);});
-        btn3.addEventListener('dblclick', (event) => {records.showRecords();});  
-        btn3.addEventListener('touchstart', (event) => {for_control3(event);});           
-    }
-    const btn4 = document.getElementById('but_close_modal');
-    if (btn4) {
-        // Закрываем модальное окно с инструкцией игры
-        btn4.addEventListener('click', (event) => {DOM.instruction.close();});
-        btn4.addEventListener('touchstart', (event) => {DOM.instruction.close();});           
-    }   
-     const btn5 = document.getElementById('submit_val');
-    if (btn5) {
-        // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
-        btn5.addEventListener('click', (event) => {records.saveRecord();});
-        btn5.addEventListener('touchstart', (event) => {records.saveRecord();});           
-    }  
-    const btn6 = document.getElementById('close_form');
-    if (btn6) {
-        // Обновление таблицы рекордов 
-        btn6.addEventListener('click', (event) => {records.refreshTable();});
-        btn6.addEventListener('touchstart', (event) => {records.refreshTable();});           
-    }  
-    const btn7 = document.getElementById('icon');
-    if (btn7) {
-        // Нажатие на кнопку 'i' показывает инструкцию пользователя
-        btn7.addEventListener('click', (event) => {DOM.instruction.show();});
-        btn7.addEventListener('touchstart', (event) => {DOM.instruction.show();});           
-    } 
-    const btn8 = document.getElementById('top_menu_close');
-    if (btn8) {
-        // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
-        btn8.addEventListener('click', (event) => {records.closeRecords();});
-        btn8.addEventListener('touchstart', (event) => {records.closeRecords();});           
-    }     
+        btn3?.addEventListener('click', (event) => {for_control3(event);});
+        btn3?.addEventListener('dblclick', (event) => {records.showRecords();});  
+        btn3?.addEventListener('touchstart', (event) => {for_control3(event);});           
 
-DOM.instruction = document.getElementById('modal_win');
-DOM.layer4 = document.getElementById('for_game_layer4');
-DOM.canvas = document.getElementById('game_canvas');
-DOM.gameA = document.getElementById('gameA');
-DOM.gameB = document.getElementById('gameB');
-DOM.ochki = document.getElementById('ochki');
-DOM.control4 = document.getElementById('control_4');
-DOM.control8 = document.getElementById('control_8');
-DOM.but1 = document.getElementById('but1');
-DOM.but2 = document.getElementById('but2');
-DOM.but3 = document.getElementById('but3');
-DOM.but4 = document.getElementById('but4');
-DOM.imgsGame = document.getElementsByClassName('imgsGame');
-DOM.imgsChiken = document.getElementsByClassName('chiken');
-DOM.eg1 = document.getElementsByClassName('eg_left_top');
-DOM.eg2 = document.getElementsByClassName('eg_left_bot');
-DOM.eg3 = document.getElementsByClassName('eg_right_top');
-DOM.eg4 = document.getElementsByClassName('eg_right_bot');
-DOM.bd1 = document.getElementById('bdyj_left1');
-DOM.bd2 = document.getElementById('bdyj_left2');    
-DOM.bd3 = document.getElementById('bdyj_right1');
-DOM.bd4 = document.getElementById('bdyj_right2');
-DOM.cypL = document.getElementsByClassName('cyplenok_left');
-DOM.cypR = document.getElementsByClassName('cyplenok_right');
-DOM.hend = document.getElementsByClassName('hend');
-DOM.bant = document.getElementsByClassName('bant');
-DOM.gameOver = document.getElementById('game_over');
-DOM.zaya = document.getElementById('zayac');
-DOM.hends = document.getElementsByClassName('hend_z'); 
-DOM.curTime = document.getElementById('curTime');
+    const btn4 = document.getElementById('but_close_modal');
+        // Закрываем модальное окно с инструкцией игры
+        btn4?.addEventListener('click', (event) => {DOM.instruction.close();});
+        btn4?.addEventListener('touchstart', (event) => {DOM.instruction.close();});           
+ 
+     const btn5 = document.getElementById('submit_val');
+        // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
+        btn5?.addEventListener('click', (event) => {records.saveRecord();});
+        btn5?.addEventListener('touchstart', (event) => {records.saveRecord();});           
+ 
+    const btn6 = document.getElementById('close_form');
+        // Обновление таблицы рекордов 
+        btn6?.addEventListener('click', (event) => {records.refreshTable();});
+        btn6?.addEventListener('touchstart', (event) => {records.refreshTable();});           
+ 
+
+    const btn7 = document.getElementById('icon');
+        // Нажатие на кнопку 'i' показывает инструкцию пользователя
+        btn7?.addEventListener('click', (event) => {DOM.instruction.show();});
+        btn7?.addEventListener('touchstart', (event) => {DOM.instruction.show();});           
+
+    const btn8 = document.getElementById('top_menu_close');
+        // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
+        btn8?.addEventListener('click', (event) => {records.closeRecords();});
+        btn8?.addEventListener('touchstart', (event) => {records.closeRecords();});           
 
 });
 
