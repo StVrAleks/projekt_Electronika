@@ -139,6 +139,7 @@ DOM.gameOver = document.getElementById('game_over');
 DOM.zaya = document.getElementById('zayac');
 DOM.hends = document.getElementsByClassName('hend_z'); 
 DOM.curTime = document.getElementById('curTime');
+
 });
 
 const controls = new GameControls();
@@ -363,11 +364,17 @@ function gameA(timerStart, sec){
       2:{0:2, 1:3, 2:4},
       2.5:{0:2, 1:3, 2:4},
     };
+    const eg = {
+      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
+      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
+      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
+      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
+    };
     if(gameState.recordVal.numGame.shtraf < 3.5)
     {
       const randomIndex = randomizer.getNextIndex(); 
       const num = num_sklon[gameState.recordVal.numGame.shtraf][randomIndex];
-      move_ags(gameState.eg[num]);//game(num);
+      move_ags(eg[num]);//game(num);
     } 
     else 
     gameState.timerStart = 0;
@@ -380,10 +387,16 @@ function gameB(timerStart, sec){
     const num_sklon = {
       0:{0:1, 1:2, 2:3, 3:4}
     };
+    const eg = {
+      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
+      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
+      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
+      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
+    };
     const randomIndex = randomizer.getNextIndex(); 
     const num = num_sklon[0][randomIndex];
     if(gameState.recordVal.numGame.shtraf < 3.5)
-      move_ags(gameState.eg[num]);//game(num);
+      move_ags(eg[num]);//game(num);
     else 
      gameState.timerStart = 0;
   }

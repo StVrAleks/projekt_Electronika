@@ -4,12 +4,7 @@ export const gameState = {
     flagZaya: 0,         // Появление зайца
     controlSec: 0,
     gameIntervalId: 0,
-    eg = {
-      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
-      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
-      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
-      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
-    },
+
 
     // Все ваши игровые рекорды и статистика внутри одного объекта
     recordVal: {
