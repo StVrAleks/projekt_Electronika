@@ -43,6 +43,7 @@ import { GameRandomizer } from '../utils/randomizer.js';
 import { RecordsManager } from '../services/recordsManager.js';
 import { globalClearAllTimers } from  '../services/clearTimer.js';
 import { TimerService } from '../services/timeService.js';
+import { GAME_CONFIG } from '../core/gameConfig.js';
 
 
 window.addEventListener('load', () => {
@@ -150,7 +151,7 @@ const timeInGame = new TimerService();
 const soundEg = './audio/eg.mp3';
 const soundBdj = 'audio/bdyj.mp3';
 
-gameState.gameIntervalId = setInterval(get_size, 1000/4);
+gameState.gameIntervalId = setInterval(get_size, GAME_CONFIG.TICK_RATE);
 /*-------------------------------------- */
 /* Вспомогательные и дополняющие функции */
 /*-------------------------------------- */
@@ -171,11 +172,11 @@ function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
 function get_size(){
 
   var sec = control3();
-  if (gameState.timerStart != 0)
+  if (gameState.timerStart != GAME_CONFIG.STATES.STOPPED)
     zayac_move(gameState.timerStart, sec);
-  if (gameState.timerStart === 1 || gameState.timerStart === 0)
+  if (gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
     gameA(gameState.timerStart, sec); //запуск игры А
-  if (gameState.timerStart === 2 || gameState.timerStart === 0)
+  if (gameState.timerStart === GAME_CONFIG.STATES.GAME_B || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
     gameB(gameState.timerStart, sec); //запуск игры Б
 
     DOM.ochki.innerText = gameState.recordVal.numGame.ball || 0;
@@ -228,7 +229,7 @@ function control2(event) {
     }
   control_event();
 
-  if(gameState.timerStart === 1)
+  if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A)
     globalClearAllTimers();
   DOM.gameB.style.opacity = 1;
   DOM.ochki.style.opacity = 1;
@@ -277,7 +278,7 @@ const eo = event || window.event;
 function for_control3(){
 
   DOM.curTime.style.opacity = 1;
-  gameState.timerStart = 4;  
+  gameState.timerStart = GAME_CONFIG.STATES.SHOW_TIME;  
   controls.hiddenVolk(); 
   globalClearAllTimers(); 
   control3();   
@@ -307,16 +308,14 @@ function createTimerPromiseZaya(obj, obj_next, val, time, result) {
 
 }
 function zayac_move(timerStart, sec){
-  if(gameState.timerStart === 1 || gameState.timerStart === 2) //если игра запущена
+  if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.GAME_B) //если игра запущена
   {
-  const rand = randomizer.getIndexFromTwo();
-  //const rand = randomDiap(0,1); //разные руки зайца
-  
+  const rand = randomizer.getIndexFromTwo(); //разные руки зайца 
   if(sec % 24 === 0)
     {
-      createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], 1, 4, 2)
+      createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_ZAYA_VISIBLE, GAME_CONFIG.TIMER_PROMISE_ZAYA_VISIBLE_TIME, 2)
       .then( result => {
-        return createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], 0, 2, 3);
+        return createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_ZAYA_INVISIBLE, GAME_CONFIG.TIMER_PROMISE_ZAYA_INVISIBLE_TIME, 3);
         })  
       .catch( error => {
         console.log("случилась ошибка: " + error);
@@ -328,7 +327,7 @@ function zayac_move(timerStart, sec){
 function createTimerPromise(obj, obj_next, time, result) {
   return new Promise( (resolve,reject) => {
       setTimeout( () => {
-        if(result === 10)
+        if(result === GAME_CONFIG.TIMER_PROMISE_REJECT)
           reject("игра окончена!!!");         
         obj.style.opacity = 0;
         obj_next.style.opacity = 1;
@@ -353,7 +352,7 @@ function createTimerPromise2(obj_next, result) {
 }
 
 function gameA(timerStart, sec){
-  if(gameState.timerStart === 1  && sec % gameState.controlSec === 0)//на стартке: 1 в 3 сек
+  if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A  && sec % gameState.controlSec === 0)//на стартке: 1 в 3 сек
   {
     //игра А. В зависимости от кол-ва штрафных очков - используются разные склоны
     const num_sklon = {
@@ -377,11 +376,11 @@ function gameA(timerStart, sec){
       move_ags(eg[num]);//game(num);
     } 
     else 
-    gameState.timerStart = 0;
+    gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
   }
 }
 function gameB(timerStart, sec){
-  if(gameState.timerStart === 2 && sec % gameState.controlSec === 0)
+  if(gameState.timerStart === GAME_CONFIG.STATES.GAME_B && sec % gameState.controlSec === 0)
   {
     //игра B. Используются все лотки произвольно
     const num_sklon = {
@@ -398,34 +397,35 @@ function gameB(timerStart, sec){
     if(gameState.recordVal.numGame.shtraf < 3.5)
       move_ags(eg[num]);//game(num);
     else 
-     gameState.timerStart = 0;
+     gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
   }
 }
 function move_ags(newEg){
   (newEg.eg)[0].style.opacity = 1;
   const egTimer=controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
-  createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egTimer/2, 0)
+  const egSpeed = egTimer/2;
+  createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE)
       .then( result => {
-          return controlMove((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 2, 10);
+          return controlMove((newEg.eg)[1], (newEg.eg)[2], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE, GAME_CONFIG.TIMER_PROMISE_REJECT);
         })   
         .then( result => {
-            return controlMove((newEg.eg)[2], (newEg.eg)[3], egTimer/2, 2, 10);
+            return controlMove((newEg.eg)[2], (newEg.eg)[3], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE, GAME_CONFIG.TIMER_PROMISE_REJECT);
           })  
           .then( result => {
-              return controlMove((newEg.eg)[3], (newEg.eg)[4], egTimer/2, 2, 10);
+              return controlMove((newEg.eg)[3], (newEg.eg)[4], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE, GAME_CONFIG.TIMER_PROMISE_REJECT);
             }) 
             .then( result => {
-              if(gameState.timerStart !=0)
+              if(gameState.timerStart != GAME_CONFIG.STATES.STOPPED)
                 return createTimerPromise2((newEg.eg)[4], 2)
               return createTimerPromise2(gameState.timerStart, 0)
               }) 
               .then( result => {
-                if(gameState.timerStart !=0)
+                if(gameState.timerStart != GAME_CONFIG.STATES.STOPPED)
                 {
                   if((newEg.hend).style.opacity === "1") 
                     {
                     gameState.recordVal.numGame.ball = gameState.recordVal.numGame.ball + 1;
-                    if(gameState.recordVal.numGame.ball === 200 || gameState.recordVal.numGame.ball === 500)  //обнуление штрафов при достижении некоторого кол-ва баллов
+                    if(gameState.recordVal.numGame.ball === GAME_CONFIG.EGG_SCORES.TRIGGER_PENALTY_AT_200 || gameState.recordVal.numGame.ball === GAME_CONFIG.EGG_SCORES.TRIGGER_PENALTY_AT_500)  //обнуление штрафов при достижении некоторого кол-ва баллов
                        gameState.recordVal.numGame.shtraf = 0;
                     return createTimerPromise2((newEg.eg)[4], 2)
                    }
@@ -445,16 +445,16 @@ function move_ags(newEg){
         //скорость увеличивается и падает в зависимости от кол-ва баллов
        let flagSec = 0, ball_flag = 0;
 
-      if(ball > 100)
+      if(ball > GAME_CONFIG.SCORE_POINTS.POINT_100)
           ball_flag = Array.from(ball)[0] + '00';
-      if(ball < (26 + ball_flag))
+      if(ball < (GAME_CONFIG.SCORE_POINTS.POINT_25 + 1 + ball_flag))
         flagSec = controlSec;
-        else if(ball > (25 + ball_flag) && ball < (51 + ball_flag))
-          flagSec = controlSec + 1;
-          else if(ball > (50 + ball_flag) && ball < (76 + ball_flag))
-            flagSec = controlSec + 2;
-            else if(ball > (75 + ball_flag) && ball < (100 + ball_flag))
-              flagSec = controlSec+3; 
+        else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_25 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_25  + 1 + ball_flag))
+          flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_25;
+          else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_50 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_75 + 1 + ball_flag))
+            flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_50;
+            else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_75 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_100 + ball_flag))
+              flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_75; 
              gameState.controlSec=flagSec;
       return  gameState.controlSec;    
  }
@@ -464,36 +464,36 @@ function move_ags(newEg){
       .then( result => {
         if(gameState.flagZaya === 1)
           {
-            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + 0.5;
+            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + GAME_CONFIG.FULL_PENALTY_LIMIT;
           move_cyp(newEg);
           gameState.flagZaya = 0;          
           }  
           else if(gameState.flagZaya === 0)
            {
-            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + 1;
+            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + GAME_CONFIG.FULL_PENALTY_LIMIT;
             window.navigator.vibrate(200);  
             }
       console.log("Штрафные:", gameState.recordVal.numGame.shtraf);            
-      if(gameState.recordVal.numGame.shtraf > 2.5)
-          gameState.timerStart = 0;   
-      if(gameState.recordVal.numGame.shtraf >=  0.5)
+      if(gameState.recordVal.numGame.shtraf > GAME_CONFIG.MAX_PENALTY)
+        {
+          DOM.bant[2].style.opacity = 1;
+          gameState.timerStart = GAME_CONFIG.STATES.STOPPED;   
+          controls.hiddenVolk();
+          DOM.gameOver.style.opacity = 1;
+          //записываем рекорды
+          gameState.recordVal.numGame.timeEnd = timeInGame.getFormattedTime();
+          records.saveRecord();
+          records.records_game(gameState.recordVal);
+          globalClearAllTimers();        
+          return true;
+        }  
+      if(gameState.recordVal.numGame.shtraf >=  GAME_CONFIG.MIN_PENALTY)
            DOM.bant[0].style.opacity = 1;
-      if(gameState.recordVal.numGame.shtraf >=  1.5)
+      if(gameState.recordVal.numGame.shtraf >=  GAME_CONFIG.MEDIUM_PENALTY)
             DOM.bant[1].style.opacity = 1;
-      if(gameState.recordVal.numGame.shtraf >=  2.5)
+      if(gameState.recordVal.numGame.shtraf ===  GAME_CONFIG.MAX_PENALTY)
             DOM.bant[2].style.opacity = 1;
-      if(gameState.recordVal.numGame.shtraf > 2.5)
-      {
-        gameState.timerStart = 0;        
-        controls.hiddenVolk();
-        DOM.gameOver.style.opacity = 1;
-        //записываем рекорды
-        gameState.recordVal.numGame.timeEnd = timeInGame.getFormattedTime();
-        records.saveRecord();
-        records.records_game(gameState.recordVal);
-        globalClearAllTimers();        
-        return true;
-      }             
+           
         })  
       .catch( error => {
         console.log("случилась ошибка: " + error);

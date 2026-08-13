@@ -3,8 +3,8 @@ import { gameState } from '../core/gameState.js';
 export function globalClearAllTimers() {
 
   const highestTimeoutId = setTimeout(() => {}, 0);
-  
-  for (let i = 0; i <= highestTimeoutId; i++) {
+  let i=0;
+  for (i = 0; i <= highestTimeoutId; i++) {
     if (i != gameState.gameIntervalId)
         clearTimeout(i);
   } 
