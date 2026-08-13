@@ -155,7 +155,13 @@ gameState.gameIntervalId = setInterval(get_size, 1000/4);
 /* Вспомогательные и дополняющие функции */
 /*-------------------------------------- */
 function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
-  if(gameState.timerStart !=0)
+// Если игра остановлена или переключена в режим "Время", прерываем цепочку
+  if (gameState.timerStart === 0 || gameState.timerStart === 4) {
+    numEgg.style.opacity = 0; // На всякий случай тушим текущий лоток
+    return Promise.reject("Игра принудительно остановлена");
+  }
+
+  if(gameState.timerStart !=0 && gameState.timerStart != 4)
       return createTimerPromise(numEgg, numEggNext,timerVal, status)
     return createTimerPromise(numEgg, numEggNext,timerVal, statusFalse)
 }
@@ -271,11 +277,10 @@ const eo = event || window.event;
 function for_control3(){
 
   DOM.curTime.style.opacity = 1;
+  gameState.timerStart = 4;  
   controls.hiddenVolk(); 
-  if(gameState.timerStart === 1 || gameState.timerStart === 2)
-    globalClearAllTimers();  
-  gameState.timerStart = 4;
-     
+  globalClearAllTimers(); 
+  control3();   
 }
 
 function control3() {
@@ -399,13 +404,13 @@ function move_ags(newEg){
   const egTimer=controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
   createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egTimer/2, 0)
       .then( result => {
-          controlMove((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 2, 10);
+          return controlMove((newEg.eg)[1], (newEg.eg)[2], egTimer/2, 2, 10);
         })   
         .then( result => {
-            controlMove((newEg.eg)[2], (newEg.eg)[3], egTimer/2, 2, 10);
+            return controlMove((newEg.eg)[2], (newEg.eg)[3], egTimer/2, 2, 10);
           })  
           .then( result => {
-              controlMove((newEg.eg)[3], (newEg.eg)[4], egTimer/2, 2, 10);
+              return controlMove((newEg.eg)[3], (newEg.eg)[4], egTimer/2, 2, 10);
             }) 
             .then( result => {
               if(gameState.timerStart !=0)
