@@ -9,11 +9,11 @@ export function globalClearAllTimers() {
         clearTimeout(i);
   } 
 
-  const gameImages = document.querySelectorAll('.imgsGame, .cyplenok_left, .cyplenok_right');
+  let gameImages = document.querySelectorAll('.imgsGame, .cyplenok_left, .cyplenok_right');
   gameImages.forEach(img => {
     img.style.opacity = 0;
   });
-  const gameImages = document.querySelectorAll('.chiken');
+  gameImages = document.querySelectorAll('.chiken');
   gameImages.forEach(img => {
     img.style.opacity = 1;
   });
