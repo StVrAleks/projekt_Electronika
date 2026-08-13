@@ -287,6 +287,7 @@ function control3() {
 
 timeInGame.update(); 
 DOM.curTime.innerText = timeInGame.getFormattedTime();
+DOM.curTime.style.opacity = 1;
 return timeInGame.getGameSecond();
 
 }
