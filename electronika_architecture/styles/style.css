@@ -1,0 +1,507 @@
+:root {
+  /* Привязываем 1rem к 1% от ширины экрана (1vw). */
+  font-size: 1vw; 
+  /* Пропорции оригинальной консоли "Электроника ИМ-02" */
+  --game-width: 70rem;   
+  --game-height: 40rem;  
+  --game-border-width: 1rem;
+  --main-red: #DB2323;
+  --dark-red: #B40E07;
+  --body-bg: #CECDC8;
+  --screen-bg: #5E6C5A;
+}
+
+/* Ограничиваем минимальный масштаб на микро-экранах (смартфоны вертикально), */
+@media all and (max-width: 620px) {
+  :root { font-size: 6px; } 
+}
+
+/* Ограничиваем максимальный масштаб на больших мониторах (от 1400px), */
+@media all and (min-width: 1400px) {
+  :root { font-size: 14px; } 
+}
+
+body {
+  background-color: rgb(241, 237, 237);
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Главный внешний корпус игры */
+#place_game_out {
+  width: var(--game-width);
+  height: var(--game-height);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: var(--game-border-width) solid var(--main-red);
+  box-sizing: border-box;
+}
+
+/* Внутреннее пространство прибора */
+#place_game_in {
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  height: 100%;
+  background-color: var(--body-bg);
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+}
+
+/* Левая панель корпуса (Логотип + 2 левые кнопки) */
+#place_game_I {
+  width: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+#logo {
+  position: absolute;
+  top: 15%;
+  left: 21%;
+  width: 6rem;
+  height: 6rem;
+  border: 0.1rem solid black;
+  box-sizing: border-box; 
+  opacity: 1;
+}
+
+/* Контейнер левых кнопок */
+#but_left {
+  width: 85%;
+  height: 37.5%; 
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 30% 50%;
+  grid-template-areas: 
+    "img_1 bord_1"
+    "img_2 bord_2";
+  justify-content: space-between;
+  justify-items: end;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+}
+
+#img1 { grid-area: img_1; }
+#top_bord { grid-area: bord_1; }
+#img2 { grid-area: img_2; }
+#bot_bord { grid-area: bord_2; }
+
+/* Декоративные стрелочки к кнопкам управления */
+#img1 {
+  border: 0.7rem solid transparent;
+  border-top: 2.8rem solid black;
+  transform: rotate(118deg);
+  margin-right: -0.2rem;
+  margin-top: -3.8rem; 
+}
+
+#img2 {
+  border: 0.7rem solid transparent;
+  border-left: 2.8rem solid black;
+  transform: rotate(149deg);
+  margin-right: -1.2rem;
+  margin-bottom: -4.3rem;
+}
+
+/* Красные ободки кнопок */
+.borderBut {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  border: 0.4rem solid var(--main-red);
+  position: relative;
+}
+
+#but1, #but2, #but3, #but4 {
+  top: 0;
+  left: 0;
+}
+
+/* Сами физические игровые кнопки */
+.for_button {
+  border-radius: 50%;
+  border: 0.3rem solid var(--dark-red);
+  background: #ff0000; 
+  width: 4rem;
+  height: 4rem;
+}
+
+/* Центральная часть */
+#place_game_II {
+  width: 70%; 
+  height: 100%;
+  position: relative;
+  perspective: 70rem; /* Контекст 3D-перспективы */
+}
+
+/*3D-короб дисплея */
+#place_for_game {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  box-sizing: border-box;
+}
+
+/* 3D-грани толщины корпуса (Объемный скос пластика) */
+.side { 
+  position: absolute; 
+  box-sizing: border-box; 
+  opacity: 0.85; 
+  background: #847C7C;
+}
+.left { 
+  left: 0;
+  top: 0;
+  width: 5rem; 
+  height: 100%; 
+  transform-origin: left center;
+  transform: rotateY(90deg);
+  background-color: #797373; 
+}
+.right { 
+  right: 0;
+  top: 0;
+  width: 5rem; 
+  height: 100%; 
+  transform-origin: right center;
+  transform: rotateY(-90deg);
+  background-color: #8E8787; 
+}
+.top { 
+/*  transform: translate(0px, -1.5rem) rotateX(90deg); /*-1.5rem*/
+  left: 0;
+  top: 0.1rem;
+  width: 100%; 
+  height: 5rem; /*3*/
+  transform-origin: center top;
+  transform: rotateX(-90deg);
+  background-color: #9A9EA2; 
+
+}
+.bottom { 
+ /* background-color: #7E6961;*/ 
+  left: 0;
+  bottom: 0.1rem; 
+  width: 100%; 
+  height: 5rem; 
+  transform-origin: center bottom;
+  transform: rotateX(90deg);
+  background-color: #6E5B55; 
+}
+
+/* --- СЛОИ ДЕКОРАТИВНОЙ ОБЪЕМНОЙ РАМКИ ВОКРУГ ЭКРАНА --- */
+#for_game_layer1 {
+  width: 98.5%;
+  height: 98%;      
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #c3c0c0;
+}
+
+#for_game_layer2 {
+  width: 95%; 
+  height: 91%;   
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0.4rem solid black;
+  border-radius: 0.8rem;
+}
+
+#for_game_layer3 {
+  width: 91.5%; 
+  height: 85.4%;    
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0.1rem solid black;
+  border-radius: 0.5rem;
+  background: var(--main-red);
+}
+
+/* Стекло экрана (Темно-зеленая подложка игры) */
+#for_game_layer4 {
+  width: 87%;
+  height: 82.06%; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 0.1rem solid black;
+  border-radius: 0.4rem;
+  background: var(--screen-bg);
+}
+
+/* Текстовые надписи «НУ, ПОГОДИ!» и «ЭЛЕКТРОНИКА» */
+#top_label {
+  left: 50%;
+}
+.for_label {
+  position: absolute;
+  top: 1%;   
+  left: 50%; 
+  background: #c3c0c0;
+  padding: 0rem 0.3rem;
+  font-weight: 900;
+  font-size: 1.9rem;
+  font-family: "Roboto", sans-serif;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+.to_bottom {
+  top: auto;
+  bottom: 1%;
+}
+/* Правая панель корпуса (Системные кнопки + 2 правые кнопки) */
+#place_game_III {
+  width: 15%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+}
+
+/* Сетка маленьких кнопок управления (Игра А, Игра Б, Время) */
+#control {
+  width: 95%;
+  height: 37.5%;
+  display: grid;
+  grid-template-rows: 16% 10% 16% 10% 16% 10%;
+  grid-template-columns: 50% 30%;
+  grid-template-areas: 
+    "but_control1 control_img_1"
+    "lab1 control1"
+    "but_control2 control_img_2"
+    "lab2 control2"
+    "but_control3 ."
+    "lab3 .";
+  justify-content: space-evenly;
+  justify-items: center;
+  align-items: center;
+  padding-top: 1.5rem;
+}
+
+#control_1 { grid-area: but_control1; }
+#control_2 { grid-area: control_img_1; }
+#control_3 { grid-area: lab1; }
+#control_4 { grid-area: control1; }
+#control_5 { grid-area: but_control2; }
+#control_6 {
+  grid-area: control_img_2; 
+  margin-bottom: -1rem;
+  font-size: 1.2rem;
+  overflow: visible;  
+}
+#control_7 { grid-area: lab2; }
+#control_8 { grid-area: control2; }
+#control_9 { grid-area: but_control3; }
+#control_10 { grid-area: lab3; }
+
+#zvon {
+  position: absolute;
+  width: 2rem;
+  top: 3%;
+  left: 65%;/* 80%;*/
+}
+
+#but_right {
+  width: 85%;
+  height: 37.5%; 
+  display: grid;
+  grid-template-rows: 50% 50%;
+  grid-template-columns: 50% 30%;
+  grid-template-areas: 
+    "bord_3 img_3"
+    "bord_4 img_4";
+  justify-content: space-between;
+  justify-items: end;
+  align-items: center;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+#img3 { grid-area: img_3; }
+#top_bord_right { grid-area: bord_3; }
+#img4 { grid-area: img_4; }
+#bot_bord_right { grid-area: bord_4; }
+
+#img3 {
+  border: 0.7rem solid transparent;
+  border-top: 2.8rem solid black;
+  transform: rotate(240deg);
+  margin-right: 1.1rem;
+  margin-top: -3.7rem;
+}
+
+#img4 {
+  border: 0.7rem solid transparent;
+  border-right: 2.8rem solid black;
+  transform: rotate(209deg);
+  margin-right: 0.1rem;
+  margin-bottom: -3.9rem;
+}
+
+.for_control_button {
+  width: 2.5rem;
+  height: 1.2rem; 
+  border-radius: 0.5rem;
+  border: 0.2rem solid var(--main-red);
+  background-color: #ffe5b4;
+}
+
+.for_control_text {
+  color: black;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2rem; 
+  font-weight: bold;
+}
+
+.impuls {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 50%;
+  background: black;
+}
+
+/* ИГРОВОЙ ЭКРАН (Слои ЖК-сегментов) */
+#img_game {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  width: 62%; 
+  height: 82.06%;
+  z-index: 15; 
+  pointer-events: none; 
+}
+
+.imgsGame { display: block; position: absolute; }
+
+.var_game {
+  position: absolute;  
+  font-weight: bold;
+  font-size: 1.2rem;
+  font-family: "Roboto", sans-serif;
+  top: 92%;  
+}
+#gameA { left: 4%; }
+#gameB { right: 4%; }
+
+#ochki, #curTime {
+  top: 15%;
+  right: 15%;
+  font-size: 2.4rem;
+  font-weight: bold;
+  font-family: "Roboto", sans-serif;
+}
+#curTime {
+  top: 4%;
+  right: 25%;
+}
+
+#game_over { width: 40%; left: 30%; top: 25%; opacity: 0; }
+#zayac { width: 14%; height: 18%; left: 15%; top: 1%; }
+#zayac_top { width: 10%; height: 12%; left: 28%; top: 0%; }
+#zayac_bottom { width: 12%; height: 12%; left: 23%; top: 12%; }
+
+/* КУРЯТНИКИ (КУРИЦЫ В УГЛАХ) — Жесткая привязка к rem-сетке экрана */
+.chiken {
+  position: absolute;
+  height: auto;
+  z-index: 16;
+}
+#ch_top_left { width: 3.5rem;left: 0.5rem; top: 3.5rem; }
+#ch_top_right { width: 5rem; right: 0.5rem; top: 4.5rem; }
+#ch_bottom_left { width: 5rem;left: 0.5rem; top: 10.5rem; }
+#ch_bottom_right { width: 4.5rem;right: 0.5rem; top: 10.5rem; }
+
+/* Кадры Волка и рук */
+#volk_right { width: 20%; left: 49%; top: 36%; opacity: 0; }
+#volk_left { width: 20%; left: 32%; top: 35%; opacity: 0; }
+#hend_top_left { width: 12%; left: 22%; top: 35%; opacity: 0; }
+#hend_top_right { width: 10%; right: 22%; top: 35%; opacity: 0; }
+#hend_bottom_right { width: 10%; right: 22%; top: 54%; opacity: 0; }
+#hend_bottom_left { width: 12%; left: 22%; top: 56%; opacity: 0; }
+
+/* Места разлома яиц */
+#bdyj_right1, #bdyj_right2 { width: 11%; left: 71%; top: 82%; opacity: 0; }
+#bdyj_left1, #bdyj_left2 { width: 11%; left: 18%; top: 81%; opacity: 0; }
+
+/* Цыплята штрафов */
+.cyplenok_left, .cyplenok_right { position: absolute; width: 9%; opacity: 0; }
+#cyplenok1_left { left: 17%; top: 77%; }
+#cyplenok2_left { left: 11%; top: 79%; }
+#cyplenok3_left { left: 6%; top: 79%; }
+#cyplenok4_left { left: 0%; top: 78%; }
+#cyplenok1_right { right: 17%; top: 77%; }
+#cyplenok2_right { right: 11%; top: 79%; }
+#cyplenok3_right { right: 6%; top: 79%; }
+#cyplenok4_right { right: 0%; top: 78%; }
+
+/* Штрафные птички сверху */
+.bant { position: absolute; width: 4%; opacity: 0; }
+#bant1 { left: 72%; top: 10%; }
+#bant2 { left: 77%; top: 10%; }
+#bant3 { left: 82%; top: 10%; }
+
+/* Траектории яиц в rem */
+.eggs { position: absolute; width: 1.4rem; opacity: 0; }
+#eg1_left_top { top: 22%; left: 10%; transform: rotate(15deg); }
+
+#eg2_left_top { top: 25%; left: 13%; transform: rotate(45deg); }
+#eg3_left_top { top: 28%; left: 15%; transform: rotate(82deg); }
+#eg4_left_top { top: 32%; left: 18%; transform: rotate(114deg); }
+#eg5_left_top { top: 36%; left: 21%; transform: rotate(137deg); }
+
+#eg1_left_bot { top: 44%; left: 10%; transform: rotate(-45deg); }
+#eg2_left_bot { top: 47%; left: 13%; transform: rotate(13deg); }
+#eg3_left_bot { top: 50%; left: 15%; transform: rotate(74deg); }
+#eg4_left_bot { top: 54%; left: 18%; transform: rotate(160deg); }
+#eg5_left_bot { top: 58%; left: 21%; transform: rotate(198deg); }
+
+#eg1_right_top { top: 23%; right: 10%; transform: rotate(-15deg); }
+#eg2_right_top { top: 26%; right: 13%; transform: rotate(45deg); }
+#eg3_right_top { top: 29%; right: 15%; transform: rotate(-82deg); }
+#eg4_right_top { top: 32%; right: 18%; transform: rotate(168deg); }
+#eg5_right_top { top: 36%; right: 21%; transform: rotate(-121deg); }
+#eg1_right_bot { top: 45%; right: 10%; transform: rotate(-45deg); }
+#eg2_right_bot { top: 48%; right: 13%; transform: rotate(13deg); }
+#eg3_right_bot { top: 51%; right: 15%; transform: rotate(74deg); }
+#eg4_right_bot { top: 54%; right: 18%; transform: rotate(160deg); }
+#eg5_right_bot { top: 58%; right: 21%; transform: rotate(198deg); }
+
+#game_canvas {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  pointer-events: none; /* Чтобы клики и тачи свободно проходили на кнопки под экраном */
+}
+
+    
+ 

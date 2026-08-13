@@ -1,0 +1,301 @@
+/*Рекорды и инструкция*/
+
+#records{
+  position: absolute;  
+  border: 1px solid black;
+  border-radius: 0.5rem;
+  background-color: #CECDC8;
+  width: 100%;
+  height: 0;
+  opacity: 0;
+}
+#top_menu{
+  width: 100%;
+  height: 10%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem; 
+  box-sizing: border-box;
+}
+
+#rec1{
+  padding-top: 0.5%;
+  padding-left: 3rem;
+  font-weight: bold;
+  font-size: 1.6rem; 
+  font-family: "Roboto", sans-serif;
+}
+#table_rec{
+  width: 100%;
+  height: 70%;
+  overflow-y: scroll;
+  margin-top: 1rem;
+}
+#recVal{
+  display: block;
+  width: 72%;
+  margin-left: 16%;
+  margin: auto;
+  border-collapse: collapse; 
+  font-size: 1.8rem; 
+  }
+  #recVal tbody{
+  width: 100%;
+  }
+#recVal,
+#recVal tr,
+#recVal tbody tr td, #trInrecVal td{
+  border-collapse: collapse; 
+  border: 1px solid grey;
+  padding: 0.5rem; 
+  text-align: center; 
+}
+
+#recVal tr td{
+  width: 20%;
+  border-right: 0px;
+  border-left: 0px;
+}
+#post_val{
+  width: 100%;
+  height: 20%;
+  text-align: center;
+  padding-top: 5%;
+}
+.but_form{
+  display: inline-block;
+  border: 0.4rem solid #DB2323;
+  background-color: #ffe5b4;
+  border-radius: 0.8rem;
+  width: 20%;
+  height: 35%;
+  margin:auto;
+  font-size: 1.5rem;
+}
+
+/*Инструкция*/
+#div_icon{
+  position: absolute;
+  width: 15%;
+  height: 30px;
+  left:0;
+  top:1%;
+  transform: rotate(0deg);
+}
+#span_icon{
+  display: block;
+  width: 15%;
+  position: absolute;
+  left: 34px;
+  top: 19%;
+  color: #DB2323;
+  font-weight: 400;
+  font-size: 15px;
+  font-family: "Roboto", sans-serif;
+  animation: 2s linear ease-in;
+  animation-name: rule_icon;
+  opacity: 0;
+  transform: rotate(0deg);
+}
+
+#conteiner{
+margin-top: -4%;
+}
+
+.ussr-container {
+  background-color: #f4e9cd; /* Цвет старой бумаги */
+  padding: 20px;
+  border: 10px double #8b0000; /* Глубокий красный кант */
+  font-family: "Impact", "Arial Black", sans-serif; /* Похож на плакатный шрифт */
+  max-width: 600px;
+  margin: auto;
+  box-shadow: 0 0 50px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.ussr-frame {
+  border: 2px solid #333;
+  padding: 15px;
+  background-image: url('https://transparenttextures.com'); /* Текстура картона */
+}
+
+.ussr-title {
+  text-align: center;
+  background-color: #cc0000; /* Кумачовый цвет */
+  color: #ffcc00; /* Золотой/желтый шрифт */
+  padding: 10px;
+  margin-top: 0;
+  letter-spacing: 2px;
+  border-bottom: 4px solid #ffcc00;
+}
+
+.ussr-slider {
+  position: relative;
+  overflow: hidden;
+  border: 5px solid #333;
+  background: #000;
+}
+
+.ussr-slide {
+  display: none;
+  text-align: center;
+}
+
+.ussr-slide.active {
+  display: block;
+  animation: ussrFade 0.5s;
+}
+
+.ussr-slide img {
+  max-width: 100%;
+  filter: sepia(0.3) contrast(1.1); /* Эффект старого фото */
+}
+
+.ussr-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #333;
+  padding: 10px;
+}
+
+.ussr-btn {
+  background: #cc0000;
+  color: #fff;
+  border: 2px solid #ffcc00;
+  padding: 5px 15px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.ussr-btn:hover {
+  background: #ffcc00;
+  color: #cc0000;
+}
+
+.ussr-counter {
+  color: #ffcc00;
+  font-size: 20px;
+}
+   /* ИКОНКА ВЫЗОВА ИНСТРУКЦИИ */
+#div_icon {
+  position: absolute;
+  top: 0.5rem;            /* Отступ сверху внутри корпуса */
+  left: 1.5rem;
+  transform: translateX(-50%); /* Идеальное центрирование по горизонтали */
+  width: auto; 
+  height: 2.5rem;
+  z-index: 30;
+  display: flex;
+  flex-direction: column; /* Текст будет аккуратно под кнопочкой */
+  align-items: center;
+  justify-content: center;
+}
+
+#icon {
+  position: relative; 
+  border-radius: 50%; 
+  height: 2.0rem; 
+  width: 0.9rem;
+  background-size: cover; 
+  background-position: center;
+  border: 0.1rem solid var(--main-red);
+  background-color: #ffe5b4;
+  box-sizing: initial;
+  transition: transform 0.2s ease;
+}
+
+#icon:hover {
+  transform: scale(1.1);
+}
+
+#icon:active {
+  transform: scale(0.95);
+}
+
+#div_icon:hover #span_icon {
+  opacity: 1;
+}
+
+#span_icon {
+  position: absolute; 
+  left: 3.5rem; 
+  top: 25%;
+  color: var(--main-red); 
+  font-weight: bold; 
+  font-size: 1.3rem;
+  font-family: "Roboto", sans-serif; 
+  opacity: 0;
+}
+/* --- СОВЕТСКИЙ ВЕКТОРНЫЙ ПАСПОРТ SVG-ИНСТРУКЦИИ () --- */
+#modal_win {
+  width: 90%;
+  max-width: 52rem;
+  background-color: #f4ebd0;
+  background-image: radial-gradient(rgba(0,0,0,0.02) 0.1rem, transparent 0);
+  background-size: 0.4rem 0.4rem;
+  border: 0.3rem double #4a3e2e;
+  box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.6);
+  padding: 2rem;
+  font-family: 'Courier New', Courier, monospace;
+  color: #261f16;
+  border-radius: 0.4rem;
+}
+#modal_win::backdrop {
+  background: rgba(0,0,0,0.75);
+}
+.ussr-text {
+  font-size: 1.3rem; 
+  line-height: 1.5; 
+  margin-top: 1.5rem;
+  min-height: 6.5rem; 
+  text-align: justify;
+  border-top: 0.1rem solid #4a3e2e; 
+  padding-top: 1rem;
+}
+.ussr-text strong { 
+  color: var(--main-red); 
+}
+/* Классы подсветки ЖК-элементов внутри SVG-схемы обучения */
+.svg-active-btn { 
+  animation: svgButtonBlink 0.5s infinite alternate; 
+}
+.svg-active-lcd { 
+  opacity: 1.0 !important; 
+  fill: #000000 !important; 
+}
+@keyframes svgButtonBlink {
+  from { 
+    fill: var(--main-red); 
+    filter: drop-shadow(0 0 0.1rem var(--main-red)) brightness(1); 
+  }
+  to { 
+    fill: #ff5252; 
+    filter: drop-shadow(0 0 0.8rem var(--main-red)) brightness(1.6); 
+  }
+}
+
+@keyframes ussrFade {
+    from { opacity: 0.5; } 
+    to { opacity: 1; }
+}
+
+/* РЕТРО-АНИМАЦИЯ ПОДСКАЗКИ СТАРТА */
+@keyframes 
+rule_icon {
+  from { 
+    transform: scale(1.2); 
+    opacity: 1; }
+    50% 
+  { 
+    transform: scale(1) translateX(0); 
+    opacity: 1; 
+  }
+  100% 
+  { 
+    transform: translateX(2rem); 
+    opacity: 0; }
+}
+
