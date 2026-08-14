@@ -10,7 +10,7 @@ export const gameState = {
     // Все ваши игровые рекорды и статистика внутри одного объекта
     recordVal: {
         numGame: {
-            shtraf: 0,   // Инициализируем числами, а не пустой строкой
+            penalties: 0,   
             ball: 0,
             timeStart: '',
             timeEnd: ''
@@ -21,7 +21,7 @@ export const gameState = {
     reset() {
         this.timerStart = 0;
         this.flagRabbit = 0;
-        this.recordVal.numGame.shtraf = 0;
+        this.recordVal.numGame.penalties = 0;
         this.recordVal.numGame.ball = 0;
     }
 };

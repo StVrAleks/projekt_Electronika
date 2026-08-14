@@ -51,7 +51,6 @@ export class addSVG{
   // 1. Обновление первого SVG (Логотип)
 
   if (DOM.logo && DOM.svg1 && DOM.masXY) {
-      console.log(' update_svg_positions in if');
     const elem_logo = DOM.logo.getBoundingClientRect();  
     const logoW = DOM.logo.offsetWidth;
     const logoH = DOM.logo.offsetHeight;

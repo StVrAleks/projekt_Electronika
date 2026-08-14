@@ -11,7 +11,8 @@ const DOM = {
     hend: null, bant: null, rabbit: null, hends: null,
     logo: null, svg1: null, svg2: null, masXY : null
 };
-//const optimizedThrottleResize = throttle( add_svg, 200);
+
+ininit(DOM); 
 
 import { addSVG } from '../utils/add_svg.js';
 import { add_canvas } from '../utils/add_canvas.js'; 
@@ -29,14 +30,11 @@ import { VisibleStyle } from '../services/controlVisible.js';
 const addSVG1 = new addSVG();
 
 window.addEventListener('load', () => {
- // add_svg(DOM);
-  ininit(DOM); 
   addGame();
   //инициализируем и создаем SVG элементы
   addSVG1.init_svg_structure(DOM);
   //изменяем размеры SVG
   addSVG1.update_svg_positions(DOM);
-
  
 });
 
@@ -105,7 +103,6 @@ const soundBdj = 'audio/bdyj.mp3';
 gameState.gameIntervalId = setInterval(get_size, GAME_CONFIG.TICK_RATE);
 /*-------------------------------------- */
 /* Вспомогательные и дополняющие функции */
-
 /*-------------------------------------- */
 function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
 // Если игра остановлена или переключена в режим "Время", прерываем цепочку
@@ -117,25 +114,6 @@ function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
   if(gameState.timerStart !=0 && gameState.timerStart != 4)
       return createTimerPromise(numEgg, numEggNext,timerVal, status)
     return createTimerPromise(numEgg, numEggNext,timerVal, statusFalse)
-}
-//интерфейс должен плавно подстраиваться непосредственно во время перетаскивания рамки окна, но не слишком часто
-function throttle(callee, timeoutMs) {
-  let timer = null;
-  return function (...args) {
-    if (timer) return;
-    timer = setTimeout(() => {
-      callee.apply(this, args);
-      timer = null;
-    }, timeoutMs);
-  };
-}
-//пересчитать размеры элементов только после того, как пользователь адаптировал окно
-function debounce(callee, timeoutMs) {
-  let timer;
-  return function (...args) {
-    clearTimeout(timer);
-    timer = setTimeout(() => callee.apply(this, args), timeoutMs);
-  };
 }
 /*------------------------------------------------ */
 /* Основная часть */
@@ -177,15 +155,15 @@ function control1(event) {
         eo.preventDefault();
     }
   control_event();
-  if(gameState.timerStart === 2)
+  if(gameState.timerStart ===  GAME_CONFIG.STATES.GAME_B)
     globalClearAllTimers();
   visibleManager.addVisible(DOM.ochki);
   visibleManager.addVisible(DOM.gameA);
   DOM.control4.style.background = 'red';
   DOM.control8.style.background = 'black';
 
-  gameState.timerStart = 1;
-  gameState.controlSec = 3;
+  gameState.timerStart =  GAME_CONFIG.STATES.GAME_A;
+  gameState.controlSec = GAME_CONFIG.START_TIMER.gameA; //3;
 
   gameState.recordVal.numGame.penalties = 0;
   gameState.recordVal.numGame.ball = 0;
@@ -209,8 +187,8 @@ function control2(event) {
   DOM.control4.style.background = 'black';
   DOM.control8.style.background = 'red';
   
-  gameState.timerStart = 2;
-  gameState.controlSec = 2;
+  gameState.timerStart =  GAME_CONFIG.STATES.GAME_B;
+  gameState.controlSec = GAME_CONFIG.START_TIMER.gameB; // 2;
  
   gameState.recordVal.numGame.penalties = 0;
   gameState.recordVal.numGame.ball = 0;
@@ -331,14 +309,6 @@ function gameA(timerStart, sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A  && sec % gameState.controlSec === 0)//на стартке: 1 в 3 сек
   {
     //игра А. В зависимости от кол-ва штрафных очков - используются разные склоны
-    const num_sklon = {
-      0:{0:1, 1:2, 2:4},
-      0.5:{0:1, 1:2, 2:4},
-      1:{0:1, 1:2, 2:3},
-      1.5:{0:1, 1:2, 2:3},
-      2:{0:2, 1:3, 2:4},
-      2.5:{0:2, 1:3, 2:4},
-    };
     const eg = {
       1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
       2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
@@ -348,7 +318,7 @@ function gameA(timerStart, sec){
     if(gameState.recordVal.numGame.penalties < 3.5)
     {
       const randomIndex = randomizer.getNextIndex(); 
-      const num = num_sklon[gameState.recordVal.numGame.penalties][randomIndex];
+      const num = GAME_CONFIG.NUM_SKLON_GAME_A[gameState.recordVal.numGame.penalties][randomIndex];
       move_ags(eg[num]);
     } 
     else 
@@ -359,9 +329,6 @@ function gameB(timerStart, sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_B && sec % gameState.controlSec === 0)
   {
     //игра B. Используются все лотки произвольно
-    const num_sklon = {
-      0:{0:1, 1:2, 2:3, 3:4}
-    };
     const eg = {
       1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
       2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
@@ -369,7 +336,7 @@ function gameB(timerStart, sec){
       4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
     };
     const randomIndex = randomizer.getNextIndex(); 
-    const num = num_sklon[0][randomIndex];
+    const num = GAME_CONFIG.NUM_SCLON_GAME_B[0][randomIndex];
     if(gameState.recordVal.numGame.penalties < 3.5)
       move_ags(eg[num]);
     else 
@@ -469,50 +436,50 @@ function move_ags(newEg){
             visibleManager.addVisible(DOM.bant[1]);
       if(gameState.recordVal.numGame.penalties ===  GAME_CONFIG.MAX_PENALTY)
             visibleManager.addVisible(DOM.bant[2]);
-           
+           console.log(bant[0], bant[1], bant[2]);
         })  
       .catch( error => {
         console.log("случилась ошибка: " + error);
       });
      
  } 
-function move_cyp(newEg){
-    createTimerPromise(newEg.bd, (newEg.cyp)[0], controlSec, 2)
-    .then( result => {
-      return createTimerPromise((newEg.cyp)[0], (newEg.cyp)[1],controlSec, 2)
-      })  
-      .then( result => {
-        return createTimerPromise((newEg.cyp)[1], (newEg.cyp)[2],controlSec, 2)
-        }) 
-        .then( result => {
-          return createTimerPromise((newEg.cyp)[2], (newEg.cyp)[3],controlSec, 2)
-          }) 
-          .then( result => {
-            return createTimerPromise2((newEg.cyp)[3], 2)
-            }) 
-.catch( error => {
-console.log("случилась ошибка: "+error);
-});
+async function move_cyp(newEg){
+  const cypElements = newEg.cyp; // Массив шагов цыпленка
+  const cypSpeed = gameState.controlSec; // Исправлено: берем из стейта
+
+  try {
+    // Двигаем цыпленка по лотку (всего 4 шага, судя по индексам 0, 1, 2, 3)
+    for (let i = 0; i < cypElements.length - 1; i++) {
+      await createTimerPromise(cypElements[i], cypElements[i + 1], cypSpeed, 2);
+    }
+    
+    // Скрываем цыпленка на последнем шаге
+    await createTimerPromise2(cypElements[cypElements.length - 1], 2);
+  } catch (error) {
+    console.error("Ошибка при анимации цыпленка:", error);
+  }
 }
 
 function startSvgGuide() {
+  // Если таймер уже крутится — сначала гарантированно очищаем его
   if (gameState.svgGuideTimer) clearInterval(gameState.svgGuideTimer);
-  let  currentSvgStep = 1;
-    renderGuideStep(currentSvgStep);
+  
+  let currentSvgStep = 1;
+  renderGuideStep(currentSvgStep);
 
-    // Автоматический шаг каждые 4.5 секунды
-  let  svgGuideTimer = setInterval(() => {
-        currentSvgStep = currentSvgStep >= 4 ? 1 : currentSvgStep + 1;
-        renderGuideStep(currentSvgStep);
-    }, 4500);
+  // Записываем интервал СТРОГО в gameState, чтобы его можно было остановить снаружи
+  gameState.svgGuideTimer = setInterval(() => {
+    currentSvgStep = currentSvgStep >= 4 ? 1 : currentSvgStep + 1;
+    renderGuideStep(currentSvgStep);
+  }, 4500);
 }
 
 function stopSvgGuide() {
-    if (gameState.svgGuideTimer) {
-        clearInterval(gameState.vgGuideTimer);
-        svgGuideTimer = null;
-    }
-    resetSvgElements();
+  if (gameState.svgGuideTimer) {
+    clearInterval(gameState.svgGuideTimer); // Исправлена опечатка (было vgGuideTimer)
+    gameState.svgGuideTimer = null;
+  }
+  resetSvgElements();
 }
 
 // Сброс всех классов анимации внутри SVG

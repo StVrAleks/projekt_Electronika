@@ -1,5 +1,6 @@
 import { gameState } from '../core/gameState.js';
 import { addSVG } from '../utils/add_svg.js'; // Если нужно перерисовывать при закрытии
+import { GAME_CONFIG } from '../core/gameConfig.js';
 
 export class RecordsManager {
     constructor(tableId, containerId, storageKey = 'GAME_INFO') {
@@ -44,7 +45,7 @@ getRecords() {
     // --- ЛОГИКА ИНТЕРФЕЙСА ---
 
     showRecords() {
-        gameState.timerStart = 0;
+        gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
         if (this.container) {
             this.container.style.transition = "0.8s ease";
             this.container.style.zIndex = "100";
