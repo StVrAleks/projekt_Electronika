@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn4 = document.getElementById('but_close_modal');
         // Закрываем модальное окно с инструкцией игры
-        btn4?.addEventListener('click', (event) => {DOM.instruction.close();});
-        btn4?.addEventListener('touchstart', (event) => {DOM.instruction.close();});           
+        btn4?.addEventListener('click', (event) => {stopSvgGuide(); DOM.instruction.close();});
+        btn4?.addEventListener('touchstart', (event) => {stopSvgGuide(); DOM.instruction.close();});           
  
      const btn5 = document.getElementById('submit_val');
         // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
@@ -95,8 +95,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn7 = document.getElementById('icon');
         // Нажатие на кнопку 'i' показывает инструкцию пользователя
-        btn7?.addEventListener('click', (event) => {DOM.instruction.show();});
-        btn7?.addEventListener('touchstart', (event) => {DOM.instruction.show();});           
+        btn7?.addEventListener('click', (event) => {DOM.instruction.show(); startSvgGuide();});
+        btn7?.addEventListener('touchstart', (event) => {DOM.instruction.show(); startSvgGuide();});           
 
     const btn8 = document.getElementById('top_menu_close');
         // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
@@ -481,3 +481,66 @@ console.log("случилась ошибка: "+error);
 });
 }
 
+function startSvgGuide() {
+  let  currentSvgStep = 1;
+    renderGuideStep(currentSvgStep);
+
+    // Автоматический шаг каждые 4.5 секунды
+  let  svgGuideTimer = setInterval((currentSvgStep) => {
+        currentSvgStep = currentGuideStep = currentSvgStep >= 4 ? 1 : currentSvgStep + 1;
+        renderGuideStep(currentSvgStep);
+    }, 4500);
+}
+
+function stopSvgGuide() {
+    clearInterval(svgGuideTimer);
+    resetSvgElements();
+}
+
+// Сброс всех классов анимации внутри SVG
+function resetSvgElements() {
+    const activeButtons = document.querySelectorAll('.svg-active-btn');
+    activeButtons.forEach(el => el.classList.remove('svg-active-btn'));
+
+    const activeLcd = document.querySelectorAll('.svg-active-lcd');
+    activeLcd.forEach(el => el.classList.remove('svg-active-lcd'));
+}
+
+// Логика работы автоматического SVG-гида
+function renderGuideStep(step) {
+    resetSvgElements();
+    const textBlock = document.getElementById('svg_instruction_text');
+
+    switch(step) {
+        case 1:
+            textBlock.innerHTML = "<strong>КЛАВИШИ СТАРТА:</strong> Для начала игры используйте кнопки выбора режимов в правой верхней части прибора. Нажмите <strong>«ИГРА А»</strong> для стандартной сессии или <strong>«ИГРА Б»</strong> для игры на повышенной скорости.";
+            // Подсвечиваем кнопки Игра А и Б на SVG
+            document.getElementById('svg_ctrl1')?.classList.add('svg-active-btn');
+            document.getElementById('svg_ctrl5')?.classList.add('svg-active-btn');
+            break;
+            
+        case 2:
+            textBlock.innerHTML = "<strong>ЛЕВЫЕ НАПРАВЛЕНИЯ:</strong> При качении яиц по левым верхним или нижним лоткам, нажимайте соответствующие <strong>ЛЕВЫЕ КНОПКИ</strong>. Волк мгновенно повернется влево и подставит корзину в нужный ярус.";
+            // Анимируем левые кнопки, левое яйцо и левого Волка на SVG
+            document.getElementById('svg_but1')?.classList.add('svg-active-btn');
+            document.getElementById('svg_but2')?.classList.add('svg-active-btn');
+            document.getElementById('svg_egg_l')?.classList.add('svg-active-lcd');
+            document.getElementById('svg_volk_l')?.classList.add('svg-active-lcd');
+            break;
+            
+        case 3:
+            textBlock.innerHTML = "<strong>ПРАВЫЕ НАПРАВЛЕНИЯ:</strong> Если яйцо катится с правой стороны экрана, используйте <strong>ПРАВЫЕ КНОПКИ</strong> управления. Контролируйте положение корзины, чтобы успевать забирать яйца с верхнего и нижнего лотков.";
+            // Анимируем правые кнопки, правое яйцо и правого Волка на SVG
+            document.getElementById('svg_but3')?.classList.add('svg-active-btn');
+            document.getElementById('svg_but4')?.classList.add('svg-active-btn');
+            document.getElementById('svg_egg_r')?.classList.add('svg-active-lcd');
+            document.getElementById('svg_volk_r')?.classList.add('svg-active-lcd');
+            break;
+            
+        case 4:
+            textBlock.innerHTML = "<strong>ШТРАФНЫЕ ОЧКИ:</strong> Каждое пропущенное яйцо разбивается. При этом на экране загорается символ цыпленка. Помните: получение <strong>3-х штрафных цыплят</strong> ведет к полной остановке игры.";
+            // Зажигаем цыпленка штрафа на SVG экране
+            document.getElementById('svg_chiken')?.classList.add('svg-active-lcd');
+            break;
+    }
+}
