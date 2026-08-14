@@ -436,7 +436,7 @@ function move_ags(newEg){
             visibleManager.addVisible(DOM.bant[1]);
       if(gameState.recordVal.numGame.penalties ===  GAME_CONFIG.MAX_PENALTY)
             visibleManager.addVisible(DOM.bant[2]);
-           console.log(bant[0], bant[1], bant[2]);
+           console.log(DOM.bant[0], DOM.bant[1], DOM.bant[2]);
         })  
       .catch( error => {
         console.log("случилась ошибка: " + error);
