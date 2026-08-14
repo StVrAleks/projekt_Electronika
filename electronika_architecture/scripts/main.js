@@ -79,8 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn4 = document.getElementById('but_close_modal');
         // Закрываем модальное окно с инструкцией игры
-        btn4?.addEventListener('click', (event) => {DOM.instruction.close();});
-        btn4?.addEventListener('touchstart', (event) => {DOM.instruction.close();});           
+        btn4?.addEventListener('click', (event) => {stopSvgGuide();  DOM.instruction.close();});
+        btn4?.addEventListener('touchstart', (event) => {stopSvgGuide();  DOM.instruction.close();});           
  
      const btn5 = document.getElementById('submit_val');
         // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const btn8 = document.getElementById('top_menu_close');
         // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
-        btn8?.addEventListener('click', (event) => {records.closeRecords();});
-        btn8?.addEventListener('touchstart', (event) => {records.closeRecords();});           
+        btn8?.addEventListener('click', (event) => {records.closeRecords();startSvgGuide();});
+        btn8?.addEventListener('touchstart', (event) => {records.closeRecords();startSvgGuide();});           
 
 });
 
