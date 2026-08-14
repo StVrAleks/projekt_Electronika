@@ -13,7 +13,7 @@ const DOM = {
 };
 //const optimizedThrottleResize = throttle( add_svg, 200);
 
-//import { add_svg } from '../utils/add_svg.js';
+import { addSVG } from '../utils/add_svg.js';
 import { add_canvas } from '../utils/add_canvas.js'; 
 import { gameState } from '../core/gameState.js';
 import { soundClickEg } from '../services/soundClick.js';
@@ -25,21 +25,26 @@ import { TimerService } from '../services/timeService.js';
 import { GAME_CONFIG } from '../core/gameConfig.js';
 import { ininit } from '../core/gameInit.js';
 import { VisibleStyle } from '../services/controlVisible.js';
-import { addSVG } from '../utils/add_svg.js';
+
 const addSVG1 = new addSVG();
 
 window.addEventListener('load', () => {
  // add_svg(DOM);
-  addSVG1.init_svg_structure(DOM);
-  addSVG1.update_svg_positions(DOM);
+  ininit(DOM); 
   addGame();
+  //инициализируем и создаем SVG элементы
+  addSVG1.init_svg_structure(DOM);
+  //изменяем размеры SVG
+  addSVG1.update_svg_positions(DOM);
+
+ 
 });
 
 window.addEventListener('resize', () => {
   addGame();
   const recGame = document.getElementById('records');
   if(recGame.style.opacity === '0' || recGame.style.opacity === "") 
-      addSVG1.update_svg_positions(DOM);//add_svg(DOM); 
+      addSVG1.update_svg_positions(DOM);
 });
 
 document.addEventListener('DOMContentLoaded', () => {
