@@ -1,5 +1,5 @@
 import { gameState } from '../core/gameState.js';
-import { add_svg } from '../utils/add_svg.js'; // Если нужно перерисовывать при закрытии
+import { addSVG } from '../utils/add_svg.js'; // Если нужно перерисовывать при закрытии
 
 export class RecordsManager {
     constructor(tableId, containerId, storageKey = 'GAME_INFO') {
@@ -16,7 +16,7 @@ export class RecordsManager {
         
         const newRecord = {
             ball: gameState.recordVal.numGame.ball,
-            shtraf: gameState.recordVal.numGame.shtraf,
+            penalties: gameState.recordVal.numGame.penalties,
             timeStart: gameState.recordVal.numGame.timeStart,
             timeEnd: gameState.recordVal.numGame.timeEnd
         };
@@ -76,10 +76,9 @@ getRecords() {
         if (!this.tbody) return;
 
         // Очистка всех строк кроме заголовка
-        // Учитываем, что в tbody может быть заголовок trInrecVal
         const rows = this.tbody.querySelectorAll('tr');
         for (let i = rows.length - 1; i > 0; i--) {
-            this.tbody.removeChild(rows[i]);
+            this.tbody.rows[i].remove();;
         }
 
         const savedRecords = this.getRecords();
@@ -94,7 +93,7 @@ getRecords() {
         const data = [
             index,
             record.ball || 0,
-            record.shtraf || 0,
+            record.penalties || 0,
             record.timeStart || '-',
             record.timeEnd || '-'
         ];

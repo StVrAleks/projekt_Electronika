@@ -1,40 +1,19 @@
 //npx serve
 const DOM = {
-    instruction: null,
-    layer4: null,
-    canvas: null,
-    gameA: null,
-    ochki: null,
-    control4: null,
-    control_8: null,
-    gameB: null,
-    but1: null,
-    but2: null,
-    but3: null,
-    but4: null,
-    imgsGame: null,
-    imgsChiken: null,
-    eg1: null,
-    eg2: null,
-    eg3: null,
-    eg4: null,
-    but3: null,
-    but4: null,
-    bd1: null,
-    bd2: null,
-    bd3: null,
-    bd4: null,    
-    cypL: null,
-    cypR: null,
-    hend: null, 
-    bant: null,
-    zaya: null,
-    hends: null,
-    curTime: null,
-    gameOver: null  
+    instruction: null, layer4: null, canvas: null,
+    gameA: null, ochki: null, gameB: null, gameOver: null,curTime: null,  
+    control4: null, control8: null, control6: null,
+    but1: null, but2: null, but3: null, but4: null,
+    imgsGame: null, imgsChiken: null,
+    eg1: null, eg2: null, eg3: null, eg4: null,
+    bd1: null, bd2: null, bd3: null, bd4: null,    
+    cypL: null, cypR: null,
+    hend: null, bant: null, rabbit: null, hends: null,
+    logo: null, svg1: null, svg2: null, masXY : null
 };
+//const optimizedThrottleResize = throttle( add_svg, 200);
 
-import { add_svg } from '../utils/add_svg.js';
+//import { add_svg } from '../utils/add_svg.js';
 import { add_canvas } from '../utils/add_canvas.js'; 
 import { gameState } from '../core/gameState.js';
 import { soundClickEg } from '../services/soundClick.js';
@@ -45,10 +24,14 @@ import { globalClearAllTimers } from  '../services/clearTimer.js';
 import { TimerService } from '../services/timeService.js';
 import { GAME_CONFIG } from '../core/gameConfig.js';
 import { ininit } from '../core/gameInit.js';
-
+import { VisibleStyle } from '../services/controlVisible.js';
+import { addSVG } from '../utils/add_svg.js';
+const addSVG1 = new addSVG();
 
 window.addEventListener('load', () => {
-  add_svg();
+ // add_svg(DOM);
+  addSVG1.init_svg_structure(DOM);
+  addSVG1.update_svg_positions(DOM);
   addGame();
 });
 
@@ -56,7 +39,7 @@ window.addEventListener('resize', () => {
   addGame();
   const recGame = document.getElementById('records');
   if(recGame.style.opacity === '0' || recGame.style.opacity === "") 
-    add_svg(); 
+      addSVG1.update_svg_positions(DOM);//add_svg(DOM); 
 });
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -77,31 +60,30 @@ document.addEventListener('DOMContentLoaded', () => {
         btn3?.addEventListener('dblclick', (event) => {records.showRecords();});  
         btn3?.addEventListener('touchstart', (event) => {for_control3(event);});           
 
-    const btn4 = document.getElementById('but_close_modal');
-        // Закрываем модальное окно с инструкцией игры
-        btn4?.addEventListener('click', (event) => {stopSvgGuide(); DOM.instruction.close();});
-        btn4?.addEventListener('touchstart', (event) => {stopSvgGuide(); DOM.instruction.close();});           
- 
-     const btn5 = document.getElementById('submit_val');
+    const btn4 = document.getElementById('submit_val');
         // Нажатие кнопки "Сохранить" в таблице рекордов для добавления текущей игры в общую таблицу
-        btn5?.addEventListener('click', (event) => {records.saveRecord();});
-        btn5?.addEventListener('touchstart', (event) => {records.saveRecord();});           
+        btn4?.addEventListener('click', (event) => {records.saveRecord();});
+        btn4?.addEventListener('touchstart', (event) => {records.saveRecord();});      
+
+    const btn5 = document.getElementById('top_menu_close');
+        // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
+        btn5?.addEventListener('click', (event) => {records.closeRecords();});
+        btn5?.addEventListener('touchstart', (event) => {records.closeRecords();});                    
  
     const btn6 = document.getElementById('close_form');
         // Обновление таблицы рекордов 
         btn6?.addEventListener('click', (event) => {records.refreshTable();});
-        btn6?.addEventListener('touchstart', (event) => {records.refreshTable();});           
- 
+        btn6?.addEventListener('touchstart', (event) => {records.refreshTable();});     
 
-    const btn7 = document.getElementById('icon');
+   const btn7 = document.getElementById('icon');
         // Нажатие на кнопку 'i' показывает инструкцию пользователя
-        btn7?.addEventListener('click', (event) => {DOM.instruction.show(); startSvgGuide();});
-        btn7?.addEventListener('touchstart', (event) => {DOM.instruction.show(); startSvgGuide();});           
+        btn7?.addEventListener('click', (event) => {DOM.instruction.showModal(); startSvgGuide();});
+     //   btn7?.addEventListener('touchstart', (event) => {DOM.instruction.showModal(); startSvgGuide();});           
 
-    const btn8 = document.getElementById('top_menu_close');
-        // Нажатие "х" над таблицей рекордов закрывает таблицу рекордов
-        btn8?.addEventListener('click', (event) => {records.closeRecords();});
-        btn8?.addEventListener('touchstart', (event) => {records.closeRecords();});           
+   const btn8 = document.getElementById('but_close_modal');
+        // Закрываем модальное окно с инструкцией игры
+        btn8?.addEventListener('click', (event) => {stopSvgGuide(); DOM.instruction.close();});
+     //   btn8?.addEventListener('touchstart', (event) => {stopSvgGuide(); DOM.instruction.close();});              
 
 });
 
@@ -109,6 +91,8 @@ const controls = new GameControls();
 const randomizer = new GameRandomizer();
 const records = new RecordsManager('recVal', 'records');
 const timeInGame = new TimerService();
+const visibleManager = new VisibleStyle();
+
 
 const soundEg = './audio/eg.mp3';
 const soundBdj = 'audio/bdyj.mp3';
@@ -116,6 +100,7 @@ const soundBdj = 'audio/bdyj.mp3';
 gameState.gameIntervalId = setInterval(get_size, GAME_CONFIG.TICK_RATE);
 /*-------------------------------------- */
 /* Вспомогательные и дополняющие функции */
+
 /*-------------------------------------- */
 function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
 // Если игра остановлена или переключена в режим "Время", прерываем цепочку
@@ -128,6 +113,25 @@ function controlMove(numEgg, numEggNext, timerVal, status, statusFalse){
       return createTimerPromise(numEgg, numEggNext,timerVal, status)
     return createTimerPromise(numEgg, numEggNext,timerVal, statusFalse)
 }
+//интерфейс должен плавно подстраиваться непосредственно во время перетаскивания рамки окна, но не слишком часто
+function throttle(callee, timeoutMs) {
+  let timer = null;
+  return function (...args) {
+    if (timer) return;
+    timer = setTimeout(() => {
+      callee.apply(this, args);
+      timer = null;
+    }, timeoutMs);
+  };
+}
+//пересчитать размеры элементов только после того, как пользователь адаптировал окно
+function debounce(callee, timeoutMs) {
+  let timer;
+  return function (...args) {
+    clearTimeout(timer);
+    timer = setTimeout(() => callee.apply(this, args), timeoutMs);
+  };
+}
 /*------------------------------------------------ */
 /* Основная часть */
 /*-------------------------------------------------*/
@@ -135,7 +139,7 @@ function get_size(){
 
   var sec = control3();
   if (gameState.timerStart != GAME_CONFIG.STATES.STOPPED)
-    zayac_move(gameState.timerStart, sec);
+    rabbit_move(gameState.timerStart, sec);
   if (gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
     gameA(gameState.timerStart, sec); //запуск игры А
   if (gameState.timerStart === GAME_CONFIG.STATES.GAME_B || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
@@ -170,14 +174,15 @@ function control1(event) {
   control_event();
   if(gameState.timerStart === 2)
     globalClearAllTimers();
-  DOM.gameA.style.opacity = 1;
-  DOM.ochki.style.opacity = 1;
+  visibleManager.addVisible(DOM.ochki);
+  visibleManager.addVisible(DOM.gameA);
   DOM.control4.style.background = 'red';
   DOM.control8.style.background = 'black';
+
   gameState.timerStart = 1;
   gameState.controlSec = 3;
 
-  gameState.recordVal.numGame.shtraf = 0;
+  gameState.recordVal.numGame.penalties = 0;
   gameState.recordVal.numGame.ball = 0;
 
   gameState.recordVal.numGame.timeStart = timeInGame.getFormattedTime();
@@ -193,14 +198,16 @@ function control2(event) {
 
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A)
     globalClearAllTimers();
-  DOM.gameB.style.opacity = 1;
-  DOM.ochki.style.opacity = 1;
+  visibleManager.addVisible(DOM.gameB);
+  visibleManager.addVisible(DOM.ochki);
+  
   DOM.control4.style.background = 'black';
   DOM.control8.style.background = 'red';
+  
   gameState.timerStart = 2;
   gameState.controlSec = 2;
  
-  gameState.recordVal.numGame.shtraf = 0;
+  gameState.recordVal.numGame.penalties = 0;
   gameState.recordVal.numGame.ball = 0;
   gameState.recordVal.numGame.timeStart = timeInGame.getFormattedTime();
 
@@ -212,13 +219,15 @@ DOM.but1.addEventListener('touchstart', controls.leftTop, false);
 DOM.but2.addEventListener('touchstart', controls.leftBot, false);
 DOM.but3.addEventListener('touchstart', controls.rightTop, false);
 DOM.but4.addEventListener('touchstart', controls.rightBot, false); 
+
   document.addEventListener('keydown', but_press, false);
 
   for(var i=0; i<DOM.imgsGame.length; i++)
-    DOM.imgsGame[i].style.opacity = 0;
-
+    visibleManager.removeVisible(DOM.imgsGame[i]);
+  
   for(var i=0; i<DOM.imgsChiken.length; i++)
-    DOM.imgsChiken[i].style.opacity = 1;
+    visibleManager.addVisible(DOM.imgsChiken[i])
+  
 }
 
 function but_press(event){
@@ -255,13 +264,13 @@ return timeInGame.getGameSecond();
 
 }
 
-function createTimerPromiseZaya(obj, obj_next, val, time, result) {
+function createTimerPromiseRabbit(obj, obj_next, val, time, result) {
 
   return new Promise( (resolve,reject) => {
       setTimeout( () => {
         if(!obj || !obj_next)
           reject("ошибка!!!");         
-        gameState.flagZaya = val;
+        gameState.flagRabbit = val;
         obj.style.opacity = val;
         obj_next.style.opacity = val;
         resolve(result);
@@ -269,15 +278,15 @@ function createTimerPromiseZaya(obj, obj_next, val, time, result) {
   });
 
 }
-function zayac_move(timerStart, sec){
+function rabbit_move(timerStart, sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.GAME_B) //если игра запущена
   {
   const rand = randomizer.getIndexFromTwo(); //разные руки зайца 
   if(sec % 24 === 0)
     {
-      createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_ZAYA_VISIBLE, GAME_CONFIG.TIMER_PROMISE_ZAYA_VISIBLE_TIME, 2)
+      createTimerPromiseRabbit(DOM.rabbit, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_RABBIT_VISIBLE, GAME_CONFIG.TIMER_PROMISE_RABBIT_VISIBLE_TIME, 2)
       .then( result => {
-        return createTimerPromiseZaya(DOM.zaya, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_ZAYA_INVISIBLE, GAME_CONFIG.TIMER_PROMISE_ZAYA_INVISIBLE_TIME, 3);
+        return createTimerPromiseRabbit(DOM.rabbit, DOM.hends[rand], GAME_CONFIG.TIMER_PROMISE_RABBIT_INVISIBLE, GAME_CONFIG.TIMER_PROMISE_RABBIT_INVISIBLE_TIME, 3);
         })  
       .catch( error => {
         console.log("случилась ошибка: " + error);
@@ -291,8 +300,8 @@ function createTimerPromise(obj, obj_next, time, result) {
       setTimeout( () => {
         if(result === GAME_CONFIG.TIMER_PROMISE_REJECT)
           reject("игра окончена!!!");         
-        obj.style.opacity = 0;
-        obj_next.style.opacity = 1;
+        visibleManager.removeVisible(obj);
+        visibleManager.addVisible(obj_next);
         soundClickEg(soundEg)
         resolve(result);
       }, 1000/time);
@@ -306,7 +315,7 @@ function createTimerPromise2(obj_next, result) {
          reject("игра окончена!!!");       
       if(obj_next)
       {
-        obj_next.style.opacity = 0;
+        visibleManager.removeVisible(obj_next)
         resolve(result);
       }
      }, 1000/2);
@@ -331,11 +340,11 @@ function gameA(timerStart, sec){
       3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
       4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
     };
-    if(gameState.recordVal.numGame.shtraf < 3.5)
+    if(gameState.recordVal.numGame.penalties < 3.5)
     {
       const randomIndex = randomizer.getNextIndex(); 
-      const num = num_sklon[gameState.recordVal.numGame.shtraf][randomIndex];
-      move_ags(eg[num]);//game(num);
+      const num = num_sklon[gameState.recordVal.numGame.penalties][randomIndex];
+      move_ags(eg[num]);
     } 
     else 
     gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
@@ -356,14 +365,14 @@ function gameB(timerStart, sec){
     };
     const randomIndex = randomizer.getNextIndex(); 
     const num = num_sklon[0][randomIndex];
-    if(gameState.recordVal.numGame.shtraf < 3.5)
-      move_ags(eg[num]);//game(num);
+    if(gameState.recordVal.numGame.penalties < 3.5)
+      move_ags(eg[num]);
     else 
      gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
   }
 }
 function move_ags(newEg){
-  (newEg.eg)[0].style.opacity = 1;
+  visibleManager.addVisible((newEg.eg)[0]);
   const egTimer=controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
   const egSpeed = egTimer/2;
   createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE)
@@ -388,13 +397,13 @@ function move_ags(newEg){
                     {
                     gameState.recordVal.numGame.ball = gameState.recordVal.numGame.ball + 1;
                     if(gameState.recordVal.numGame.ball === GAME_CONFIG.EGG_SCORES.TRIGGER_PENALTY_AT_200 || gameState.recordVal.numGame.ball === GAME_CONFIG.EGG_SCORES.TRIGGER_PENALTY_AT_500)  //обнуление штрафов при достижении некоторого кол-ва баллов
-                       gameState.recordVal.numGame.shtraf = 0;
+                       gameState.recordVal.numGame.penalties = 0;
                     return createTimerPromise2((newEg.eg)[4], 2)
                    }
                 else 
                 {
                 soundClickEg(soundBdj);
-                newEg.bd.style.opacity = 1;
+                visibleManager.addVisible(newEg);
                     return move_bdyj(newEg);
                 }}
                 })  
@@ -424,24 +433,24 @@ function move_ags(newEg){
  function move_bdyj(newEg){
   createTimerPromise2(newEg.bd, 2)
       .then( result => {
-        if(gameState.flagZaya === 1)
+        if(gameState.flagRabbit === 1)
           {
-            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + GAME_CONFIG.FULL_PENALTY_LIMIT;
+            gameState.recordVal.numGame.penalties = gameState.recordVal.numGame.penalties + GAME_CONFIG.FULL_PENALTY_LIMIT;
           move_cyp(newEg);
-          gameState.flagZaya = 0;          
+          gameState.flagRabbit = 0;          
           }  
-          else if(gameState.flagZaya === 0)
+          else if(gameState.flagRabbit === 0)
            {
-            gameState.recordVal.numGame.shtraf = gameState.recordVal.numGame.shtraf + GAME_CONFIG.FULL_PENALTY_LIMIT;
+            gameState.recordVal.numGame.penalties = gameState.recordVal.numGame.penalties + GAME_CONFIG.FULL_PENALTY_LIMIT;
             window.navigator.vibrate(200);  
             }
-      console.log("Штрафные:", gameState.recordVal.numGame.shtraf);            
-      if(gameState.recordVal.numGame.shtraf > GAME_CONFIG.MAX_PENALTY)
+      console.log("Штрафные:", gameState.recordVal.numGame.penalties);            
+      if(gameState.recordVal.numGame.penalties > GAME_CONFIG.MAX_PENALTY)
         {
-          DOM.bant[2].style.opacity = 1;
+          visibleManager.addVisible(DOM.bant[2]);
           gameState.timerStart = GAME_CONFIG.STATES.STOPPED;   
           controls.hiddenVolk();
-          DOM.gameOver.style.opacity = 1;
+          visibleManager.addVisible(DOM.gameOver)
           //записываем рекорды
           gameState.recordVal.numGame.timeEnd = timeInGame.getFormattedTime();
           records.saveRecord();
@@ -449,12 +458,12 @@ function move_ags(newEg){
           globalClearAllTimers();        
           return true;
         }  
-      if(gameState.recordVal.numGame.shtraf >=  GAME_CONFIG.MIN_PENALTY)
-           DOM.bant[0].style.opacity = 1;
-      if(gameState.recordVal.numGame.shtraf >=  GAME_CONFIG.MEDIUM_PENALTY)
-            DOM.bant[1].style.opacity = 1;
-      if(gameState.recordVal.numGame.shtraf ===  GAME_CONFIG.MAX_PENALTY)
-            DOM.bant[2].style.opacity = 1;
+      if(gameState.recordVal.numGame.penalties >=  GAME_CONFIG.MIN_PENALTY)
+           visibleManager.addVisible(DOM.bant[0]);
+      if(gameState.recordVal.numGame.penalties >=  GAME_CONFIG.MEDIUM_PENALTY)
+            visibleManager.addVisible(DOM.bant[1]);
+      if(gameState.recordVal.numGame.penalties ===  GAME_CONFIG.MAX_PENALTY)
+            visibleManager.addVisible(DOM.bant[2]);
            
         })  
       .catch( error => {
@@ -482,18 +491,22 @@ console.log("случилась ошибка: "+error);
 }
 
 function startSvgGuide() {
+  if (gameState.svgGuideTimer) clearInterval(gameState.svgGuideTimer);
   let  currentSvgStep = 1;
     renderGuideStep(currentSvgStep);
 
     // Автоматический шаг каждые 4.5 секунды
-  let  svgGuideTimer = setInterval((currentSvgStep) => {
-        currentSvgStep = currentGuideStep = currentSvgStep >= 4 ? 1 : currentSvgStep + 1;
+  let  svgGuideTimer = setInterval(() => {
+        currentSvgStep = currentSvgStep >= 4 ? 1 : currentSvgStep + 1;
         renderGuideStep(currentSvgStep);
     }, 4500);
 }
 
 function stopSvgGuide() {
-    clearInterval(svgGuideTimer);
+    if (gameState.svgGuideTimer) {
+        clearInterval(gameState.vgGuideTimer);
+        svgGuideTimer = null;
+    }
     resetSvgElements();
 }
 
@@ -520,7 +533,7 @@ function renderGuideStep(step) {
             break;
             
         case 2:
-            textBlock.innerHTML = "<strong>ЛЕВЫЕ НАПРАВЛЕНИЯ:</strong> При качении яиц по левым верхним или нижним лоткам, нажимайте соответствующие <strong>ЛЕВЫЕ КНОПКИ</strong>. Волк мгновенно повернется влево и подставит корзину в нужный ярус.";
+            textBlock.innerHTML = "<strong>ЛЕВЫЕ НАПРАВЛЕНИЯ:</strong> При качении яиц по левым верхним или нижним лоткам, нажимайте соответствующие <strong>ЛЕВЫЕ КНОПКИ</strong> или клавиши клавиатуры <strong>Shift или Ctrl</strong>. Волк мгновенно повернется влево и подставит корзину в нужный ярус. Чем больше яиц спасли, тем становится выше скорость";
             // Анимируем левые кнопки, левое яйцо и левого Волка на SVG
             document.getElementById('svg_but1')?.classList.add('svg-active-btn');
             document.getElementById('svg_but2')?.classList.add('svg-active-btn');
@@ -529,7 +542,7 @@ function renderGuideStep(step) {
             break;
             
         case 3:
-            textBlock.innerHTML = "<strong>ПРАВЫЕ НАПРАВЛЕНИЯ:</strong> Если яйцо катится с правой стороны экрана, используйте <strong>ПРАВЫЕ КНОПКИ</strong> управления. Контролируйте положение корзины, чтобы успевать забирать яйца с верхнего и нижнего лотков.";
+            textBlock.innerHTML = "<strong>ПРАВЫЕ НАПРАВЛЕНИЯ:</strong> Если яйцо катится с правой стороны экрана, используйте <strong>ПРАВЫЕ КНОПКИ</strong> управления или нажмите клавиши клавиатуры  <strong>Стрелка вверх (▲) или Стрелка вниз (▼)</strong>. Контролируйте положение корзины, чтобы успевать забирать яйца с верхнего и нижнего лотков.";
             // Анимируем правые кнопки, правое яйцо и правого Волка на SVG
             document.getElementById('svg_but3')?.classList.add('svg-active-btn');
             document.getElementById('svg_but4')?.classList.add('svg-active-btn');
@@ -538,7 +551,7 @@ function renderGuideStep(step) {
             break;
             
         case 4:
-            textBlock.innerHTML = "<strong>ШТРАФНЫЕ ОЧКИ:</strong> Каждое пропущенное яйцо разбивается. При этом на экране загорается символ цыпленка. Помните: получение <strong>3-х штрафных цыплят</strong> ведет к полной остановке игры.";
+            textBlock.innerHTML = "<strong>ШТРАФНЫЕ ОЧКИ:</strong> Каждое пропущенное яйцо разбивается. Если в это время в домике появляется заяц, то на экране загорается символ цыпленка и зачисляется только 0,5 штрафа. Помните: получение <strong>3-х штрафных очков (бантов сверху)</strong> ведет к полной остановке игры.";
             // Зажигаем цыпленка штрафа на SVG экране
             document.getElementById('svg_chiken')?.classList.add('svg-active-lcd');
             break;

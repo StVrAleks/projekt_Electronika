@@ -1,5 +1,5 @@
 export function soundClickEg(soundFoder) {
-  var audio = new Audio(); // Создаём новый элемент Audio
+  const audio = new Audio(); // Создаём новый элемент Audio
   audio.src = soundFoder; // Указываем путь к звуку "клика"
   audio.autoplay = true; // Автоматически запускаем
 }

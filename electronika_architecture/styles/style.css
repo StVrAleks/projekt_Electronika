@@ -424,9 +424,9 @@ button {
 }
 
 #game_over { width: 40%; left: 30%; top: 25%; opacity: 0; }
-#zayac { width: 14%; height: 18%; left: 15%; top: 1%; }
-#zayac_top { width: 10%; height: 12%; left: 28%; top: 0%; }
-#zayac_bottom { width: 12%; height: 12%; left: 23%; top: 12%; }
+#rabbit { width: 14%; height: 18%; left: 15%; top: 1%; }
+#rabbit_top { width: 10%; height: 12%; left: 28%; top: 0%; }
+#rabbit_bottom { width: 12%; height: 12%; left: 23%; top: 12%; }
 
 /* КУРЯТНИКИ (КУРИЦЫ В УГЛАХ) — Жесткая привязка к rem-сетке экрана */
 .chiken {
@@ -503,5 +503,11 @@ button {
   pointer-events: none; /* Чтобы клики и тачи свободно проходили на кнопки под экраном */
 }
 
+.isVisible{
+  opacity: 1;
+}
+.isInvisible{
+  opacity: 0;
+}
     
  

@@ -10,10 +10,10 @@ export const GAME_CONFIG = {
   EGG_SPEED_UP_75: 3,           // Увеличение скорости от 75 баллов
   TIMER_PROMISE_RESOLVE: 2,     // Промис зерезолвится со значением 2 и движение яиц далее продолжится
   TIMER_PROMISE_REJECT: 10,      // Промис зереджектится со значением 10 - игра окончена
-  TIMER_PROMISE_ZAYA_VISIBLE: 1, // Заяц с колокольчиком появился в домике
-  TIMER_PROMISE_ZAYA_INVISIBLE: 0, // Заяц с колокольчиком исчез
-  TIMER_PROMISE_ZAYA_VISIBLE_TIME: 4, // Заяц с колокольчиком появляется в домике каждые 4000 мсек
-  TIMER_PROMISE_ZAYA_INVISIBLE_TIME: 2, // Заяц с колокольчиком исчезает каждые 2000 мсек  
+  TIMER_PROMISE_RABBIT_VISIBLE: 1, // Заяц с колокольчиком появился в домике
+  TIMER_PROMISE_RABBIT_INVISIBLE: 0, // Заяц с колокольчиком исчез
+  TIMER_PROMISE_RABBIT_VISIBLE_TIME: 4, // Заяц с колокольчиком появляется в домике каждые 4000 мсек
+  TIMER_PROMISE_RABBIT_INVISIBLE_TIME: 2, // Заяц с колокольчиком исчезает каждые 2000 мсек  
 
   
   STATES: {
