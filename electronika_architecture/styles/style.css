@@ -501,6 +501,7 @@ button {
   transform: translate(-50%, -50%);
   z-index: 10;
   pointer-events: none; /* Чтобы клики и тачи свободно проходили на кнопки под экраном */
+  object-fit: contain;
 }
 
 .isVisible{

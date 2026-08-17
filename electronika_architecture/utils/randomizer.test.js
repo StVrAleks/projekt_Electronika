@@ -1,4 +1,5 @@
-const { GameRandomizer } = require('./randomizer'); 
+
+import { describe, test, expect, beforeEach } from 'vitest';const { GameRandomizer } = require('./randomizer'); 
 
 describe('GameRandomizer (Логика мешка)', () => {
     let randomizer;

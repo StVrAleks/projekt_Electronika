@@ -1,3 +1,6 @@
+import { visibleManager } from './visibleManager.js';
+//const visibleManager2 = new VisibleStyle();
+
 export class GameControls {
     // Внутренний вспомогательный метод для получения элементов
     getElements() {
@@ -13,18 +16,22 @@ export class GameControls {
 
         // Проверяем, что элементы вообще есть на странице (защита от ошибок)
         if (volk[volkShowIndex] && volk[volkHideIndex]) {
-            volk[volkShowIndex].style.opacity = '1';
+           // visibleManager.addVisible(volk[volkShowIndex])
+           //visibleManager.removeVisible(volk[volkHideIndex])
+           volk[volkShowIndex].style.opacity = '1';
             volk[volkHideIndex].style.opacity = '0';
         }
 
         // Сбрасываем все руки в 0
         for (let i = 0; i < hend.length; i++) {
             hend[i].style.opacity = '0';
+            //visibleManager.removeVisible(hend[i])
         }
 
         // Включаем нужную руку
         if (hend[activeHendIndex]) {
-            hend[activeHendIndex].style.opacity = '1';
+           // visibleManager.addVisible(hend[activeHendIndex])   
+            hend[activeHendIndex].style.opacity = '1';        
         }
     }
 
@@ -68,3 +75,4 @@ export class GameControls {
         this.setDirection(1, 1, 5);
     }
 }
+

@@ -1,10 +1,11 @@
 export const GAME_CONFIG = {
   TICK_RATE: 1000 / 4,         // Частота обновления get_size
-  MAX_PENALTY: 2.5,            // Максимальный штраф (3 бантика)
+  MAX_PENALTY: 2.5,            // Максимальный штраф (3 бантика или 2,5 штрафных очка)
   MIN_PENALTY: 0.5,            // Максимальный штраф (2 бантика) 
   MEDIUM_PENALTY: 1.5,         // Максимальный штраф (1 бантика)
   HALF_PENALTY_LIMIT: 0.5,     // Штраф, если заяц разбилось с зайцем
   FULL_PENALTY_LIMIT: 1,       // Штраф, если яйцо разбилось без зайца
+  MAX_PENALTY_LIMIT: 3.5,       // Максимальный штраф (3 бантика или 3,5 штрафных очка)
   EGG_SPEED_UP_25: 1,          // Увеличение скорости от 25 баллов
   EGG_SPEED_UP_50: 2,           // Увеличение скорости от 50 баллов
   EGG_SPEED_UP_75: 3,           // Увеличение скорости от 75 баллов
@@ -12,8 +13,10 @@ export const GAME_CONFIG = {
   TIMER_PROMISE_REJECT: 10,      // Промис зереджектится со значением 10 - игра окончена
   TIMER_PROMISE_RABBIT_VISIBLE: 1, // Заяц с колокольчиком появился в домике
   TIMER_PROMISE_RABBIT_INVISIBLE: 0, // Заяц с колокольчиком исчез
-  TIMER_PROMISE_RABBIT_VISIBLE_TIME: 4, // Заяц с колокольчиком появляется в домике каждые 4000 мсек
+  TIMER_PROMISE_RABBIT_VISIBLE_TIME: 4, // Заяц с колокольчиком появляется в домике
   TIMER_PROMISE_RABBIT_INVISIBLE_TIME: 2, // Заяц с колокольчиком исчезает каждые 2000 мсек  
+  SOUND_EGG: '../audio/eg.mp3',
+  SOUND_BDJ: '../audio/bdyj.mp3',
 
   
   STATES: {
@@ -52,5 +55,4 @@ export const GAME_CONFIG = {
     gameA: 3,
     gameB: 2
   }
-
 };

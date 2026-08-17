@@ -29,18 +29,18 @@ export class RecordsManager {
         this.refreshTable();
     }
 
-getRecords() {
-    const rawData = localStorage.getItem(this.storageKey);
-    if (!rawData) return [];
+    getRecords() {
+        const rawData = localStorage.getItem(this.storageKey);
+        if (!rawData) return [];
 
-    try {
-        const parsed = JSON.parse(rawData);
-        return Array.isArray(parsed) ? parsed : [];
-    } catch (error) {
-        console.error('Ошибка парсинга рекордов из LocalStorage:', error);
-        return []; 
+        try {
+            const parsed = JSON.parse(rawData);
+            return Array.isArray(parsed) ? parsed : [];
+        } catch (error) {
+            console.error('Ошибка парсинга рекордов из LocalStorage:', error);
+            return []; 
+        }
     }
-}
 
     // --- ЛОГИКА ИНТЕРФЕЙСА ---
 

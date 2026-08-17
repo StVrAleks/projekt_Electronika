@@ -1,4 +1,4 @@
-export class VisibleStyle {
+class VisibleStyle {
 
     addVisible(el) {
         if (!el) return;
@@ -35,3 +35,4 @@ export class VisibleStyle {
         }
     }
 }
+export const visibleManager = new VisibleStyle();
