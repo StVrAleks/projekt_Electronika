@@ -54,5 +54,12 @@ export const GAME_CONFIG = {
   START_TIMER: {
     gameA: 3,
     gameB: 2
-  }
+  },
+
+   EGG: {
+      1:{"eg": null, "bd":null, "cyp":null, "hend": null},
+      2:{"eg": null,"bd":null, "cyp":null, "hend": null},
+      3:{"eg": null,"bd":null, "cyp":null, "hend": null},
+      4:{"eg": null,"bd":null, "cyp":null, "hend": null}
+    }
 };

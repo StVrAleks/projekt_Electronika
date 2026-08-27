@@ -423,7 +423,7 @@ button {
   right: 25%;
 }
 
-#game_over { width: 40%; left: 30%; top: 25%; opacity: 0; }
+#game_over { width: 40%; left: 30%; top: 25%;}
 #rabbit { width: 14%; height: 18%; left: 15%; top: 1%; }
 #rabbit_top { width: 10%; height: 12%; left: 28%; top: 0%; }
 #rabbit_bottom { width: 12%; height: 12%; left: 23%; top: 12%; }
@@ -448,9 +448,9 @@ button {
 #hend_bottom_left { width: 12%; left: 22%; top: 56%; opacity: 0; }
 
 /* Места разлома яиц */
-#bdyj_right1, #bdyj_right2 { width: 11%; left: 71%; top: 82%; opacity: 0; }
-#bdyj_left1, #bdyj_left2 { width: 11%; left: 18%; top: 81%; opacity: 0; }
-
+#bdyj_right1, #bdyj_right2 { width: 11%; left: 71%; top: 82%; }
+#bdyj_left1, #bdyj_left2 { width: 11%; left: 18%; top: 81%; }
+.elHidden{ opacity: 0}
 /* Цыплята штрафов */
 .cyplenok_left, .cyplenok_right { position: absolute; width: 9%; opacity: 0; }
 #cyplenok1_left { left: 17%; top: 77%; }
@@ -489,8 +489,8 @@ button {
 #eg4_right_top { top: 32%; right: 18%; transform: rotate(168deg); }
 #eg5_right_top { top: 36%; right: 21%; transform: rotate(-121deg); }
 #eg1_right_bot { top: 45%; right: 10%; transform: rotate(-45deg); }
-#eg2_right_bot { top: 48%; right: 13%; transform: rotate(13deg); }
-#eg3_right_bot { top: 51%; right: 15%; transform: rotate(74deg); }
+#eg2_right_bot { top: 48%; right: 14%; transform: rotate(13deg); }
+#eg3_right_bot { top: 51%; right: 16%; transform: rotate(74deg); }
 #eg4_right_bot { top: 54%; right: 18%; transform: rotate(160deg); }
 #eg5_right_bot { top: 58%; right: 21%; transform: rotate(198deg); }
 

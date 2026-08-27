@@ -338,7 +338,7 @@ async function move_ags(newEg){
     else 
     {
     soundClickEg(GAME_CONFIG.SOUND_BDJ);
-    visibleManager.addVisible(newEg);
+    visibleManager.addVisible(newEg.bd);
         await move_bdyj(newEg);
     }
   }}

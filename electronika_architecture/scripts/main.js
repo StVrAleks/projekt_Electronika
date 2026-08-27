@@ -96,6 +96,12 @@ document.addEventListener('DOMContentLoaded', () => {
     DOM.but4.addEventListener('touchstart', () => {if(gameState.timerStart !== 'STOPPED') controls.rightBot();}, false); 
 
     document.addEventListener('keydown', but_press, false);
+  GAME_CONFIG.EGG = {
+      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
+      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
+      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
+      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
+    };
 });
 
 const controls = new GameControls();
@@ -129,9 +135,9 @@ function get_size(){
   if (gameState.timerStart != GAME_CONFIG.STATES.STOPPED)
     rabbit_move(gameState.timerStart, sec);
   if (gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
-    gameA(gameState.timerStart, sec); //запуск игры А
+    gameA(sec); //запуск игры А
   if (gameState.timerStart === GAME_CONFIG.STATES.GAME_B || gameState.timerStart === GAME_CONFIG.STATES.STOPPED)
-    gameB(gameState.timerStart, sec); //запуск игры Б
+    gameB(sec); //запуск игры Б
 
     DOM.ochki.innerText = gameState.recordVal.numGame.ball || 0;
 }
@@ -250,7 +256,7 @@ return timeInGame.getGameSecond();
 //**********описание процесса игры */
 //-----------------------------------
 
-function rabbit_move(timerStart, sec){
+function rabbit_move( sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A || gameState.timerStart === GAME_CONFIG.STATES.GAME_B) //если игра запущена
   {
   const rand = randomizer.getIndexFromTwo(); //разные руки зайца 
@@ -266,40 +272,29 @@ function rabbit_move(timerStart, sec){
    }
  }   
 }
-function gameA(timerStart, sec){
+function gameA(sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_A  && sec % gameState.controlSec === 0)//на стартке: 1 в 3 сек
   {
     //игра А. В зависимости от кол-ва штрафных очков - используются разные склоны
-    const eg = {
-      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
-      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
-      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
-      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
-    };
     if(gameState.recordVal.numGame.penalties < 3.5)
     {
-      const randomIndex = randomizer.getNextIndex(); 
-      const num = GAME_CONFIG.NUM_SKLON_GAME_A[gameState.recordVal.numGame.penalties][randomIndex];
-      move_ags(eg[num]);
+      const curNumGame = gameState.recordVal.numGame.penalties;
+      const randomIndex = randomizer.getNextIndex('A'); 
+      const num = GAME_CONFIG.NUM_SKLON_GAME_A[curNumGame][randomIndex];
+      move_ags(GAME_CONFIG.EGG[num]);
     } 
     else 
     gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
   }
 }
-function gameB(timerStart, sec){
+function gameB(sec){
   if(gameState.timerStart === GAME_CONFIG.STATES.GAME_B && sec % gameState.controlSec === 0)
   {
     //игра B. Используются все лотки произвольно
-    const eg = {
-      1:{"eg": DOM.eg1, "bd":DOM.bd1, "cyp":DOM.cypL, "hend": DOM.hend[0]},
-      2:{"eg": DOM.eg2,"bd":DOM.bd2, "cyp":DOM.cypL, "hend": DOM.hend[3]},
-      3:{"eg": DOM.eg3,"bd":DOM.bd3, "cyp":DOM.cypR, "hend": DOM.hend[1]},
-      4:{"eg": DOM.eg4,"bd":DOM.bd4, "cyp":DOM.cypR, "hend": DOM.hend[2]}
-    };
-    const randomIndex = randomizer.getNextIndex(); 
+    const randomIndex = randomizer.getNextIndex('B'); 
     const num = GAME_CONFIG.NUM_SCLON_GAME_B[0][randomIndex];
     if(gameState.recordVal.numGame.penalties < GAME_CONFIG.MAX_PENALTY_LIMIT)
-      move_ags(eg[num]);
+      move_ags(GAME_CONFIG.EGG[num]);
     else 
      gameState.timerStart = GAME_CONFIG.STATES.STOPPED;
   }
@@ -307,8 +302,7 @@ function gameB(timerStart, sec){
 async function move_ags(newEg){
 
   visibleManager.addVisible((newEg.eg)[0]);
-  const egTimer = controlTimerGame(gameState.recordVal.numGame.ball, gameState.controlSec);
-    const egSpeed = egTimer/2;
+  const egSpeed = controlTimerGame(gameState.recordVal.numGame.ball);
 
   try {
     await  controlPromises.createTimerPromise((newEg.eg)[0], (newEg.eg)[1], egSpeed, GAME_CONFIG.TIMER_PROMISE_RESOLVE);
@@ -338,29 +332,39 @@ async function move_ags(newEg){
     else 
     {
     soundClickEg(GAME_CONFIG.SOUND_BDJ);
-    visibleManager.addVisible(newEg);
+    visibleManager.addVisible(newEg.bd);
         await move_bdyj(newEg);
     }
   }}
   catch(err){console.log('Случилась ошибка после ската яйца',err);}
  }
 
- function controlTimerGame(ball, controlSec){
+ function controlTimerGame(ball){
         //скорость увеличивается и падает в зависимости от кол-ва баллов
-       let flagSec = 0, ball_flag = 0;
+       let ball_flag = 0, speedBonus = 0;
 
-      if(ball > GAME_CONFIG.SCORE_POINTS.POINT_100)
+      const baseSpeed = gameState.timerStart === GAME_CONFIG.STATES.GAME_A 
+          ? GAME_CONFIG.START_TIMER.gameA * 250 // Например, 3 * 250 = 750мс на шаг
+          : GAME_CONFIG.START_TIMER.gameB * 250;
+
+       if(ball > GAME_CONFIG.SCORE_POINTS.POINT_100)
           ball_flag = Math.floor(ball / 100) * 100;
-      if(ball < (GAME_CONFIG.SCORE_POINTS.POINT_25 + 1 + ball_flag))
-        flagSec = controlSec;
-        else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_25 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_25  + 1 + ball_flag))
-          flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_25;
-          else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_50 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_75 + 1 + ball_flag))
-            flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_50;
-            else if(ball > (GAME_CONFIG.SCORE_POINTS.POINT_75 + ball_flag) && ball < (GAME_CONFIG.SCORE_POINTS.POINT_100 + ball_flag))
-              flagSec = controlSec + GAME_CONFIG.EGG_SPEED_UP_75; 
-             gameState.controlSec=flagSec;
-      return  gameState.controlSec;    
+
+      // Рассчитываем фиксированное ускорение для текущего диапазона очков
+      if (ball >= GAME_CONFIG.SCORE_POINTS.POINT_75) {
+          // Суммируем все три ускорения, если прошли порог 75
+          speedBonus = GAME_CONFIG.EGG_SPEED_UP_25 + GAME_CONFIG.EGG_SPEED_UP_50 + GAME_CONFIG.EGG_SPEED_UP_75;
+      } else if (ball >= GAME_CONFIG.SCORE_POINTS.POINT_50 ) {
+          speedBonus = GAME_CONFIG.EGG_SPEED_UP_25 + GAME_CONFIG.EGG_SPEED_UP_50;
+      } else if (ball >= GAME_CONFIG.SCORE_POINTS.POINT_25) {
+          speedBonus = GAME_CONFIG.EGG_SPEED_UP_25;
+      }
+
+      // Каждая единица speedBonus будет уменьшать задержку, например, на 50мс
+      const finalDelay = baseSpeed - (speedBonus * 60);
+
+      // Защита: скорость не может быть быстрее, чем 200мс на шаг яйца
+      return Math.max(finalDelay, 200);   
  }
 
  async function move_bdyj(newEg){
@@ -389,7 +393,7 @@ async function move_ags(newEg){
       visibleManager.addVisible(DOM.bant[2]);
       gameState.timerStart = GAME_CONFIG.STATES.STOPPED;   
       controls.hiddenVolk();
-      visibleManager.addVisible(DOM.gameOver)
+      visibleManager.addVisible(DOM.gameOver);
       //записываем рекорды
       gameState.recordVal.numGame.timeEnd = timeInGame.getFormattedTime();
       records.saveRecord();
@@ -410,16 +414,19 @@ async function move_ags(newEg){
      
  } 
 async function move_cyp(newEg){
-  const cypElements = newEg.cyp; // Массив шагов цыпленка
   const cypSpeed = gameState.controlSec; // Исправлено: берем из стейта
+  let i = 0, elementArr = Array;
+  elementArr.push(newEg.bd);
+    for(i=0; i < newEg.cyp.length; i++)
+      elementArr.push(newEg.cyp[i]);
 
   try {
     // Двигаем цыпленка
-    for (let i = 0; i < cypElements.length - 1; i++) {
-      await controlPromises.createTimerPromise(cypElements[i], cypElements[i + 1], cypSpeed, 2);
+    for (let i = 0; i < elementArr.length - 1; i++) {
+      await controlPromises.createTimerPromise(elementArr[i], elementArr[i + 1], cypSpeed, 2);
     }
     // Скрываем цыпленка на последнем шаге
-    await controlPromises.createTimerPromise2(cypElements[cypElements.length - 1], 2);
+    await controlPromises.createTimerPromise2(elementArr[elementArr.length - 1], 2);
   } catch (error) {
     console.error("Ошибка при анимации цыпленка:", error);
   }

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1">
+    <title>Ну погоди!</title>
+    <link rel="stylesheet" href="/styles/style.css" media="all">
+    <link rel="stylesheet" href="/styles/style_records_instr.css" media="all">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    
+    <div id="place_game_out">
+        <div id="records">
+            <div id="top_menu">
+                <div id="rec1">Мои рекорды</div>
+                <button id="top_menu_close">X</button>
+            </div>
+            <div id="table_rec">
+                <table id="recVal">
+                    <tr class="trInrecVal">
+                        <td>Игра</td>
+                        <td>Очки</td>
+                        <td>Штрафы</td>
+                        <td>Старт</td>
+                        <td>Финиш</td>
+                    </tr>                
+                </table>
+            </div>
+            <div id="post_val">
+                <button id="submit_val" class="but_form" type="button">Сохранить</button>
+                <button id="close_form" class="but_form" type="button">Все попытки</button>
+            </div>
+        </div>
+        <div id="place_game_in">
+            <div id="place_game_I">
+                <div id="div_icon">
+                    <span id="span_icon">Инструкция</span>
+                    <button id="icon" style="background-image: url('img/free-icon.png');"></button>
+                </div>
+                <div id="logo"></div>
+                 <div id="but_left">
+                    <div id="img1"></div>
+                    <div id="top_bord" class="borderBut">
+                    <button id="but1" class="for_button" style="position: absolute;"></button>
+                    </div>
+                    <div id="img2"></div>
+                    <div id="bot_bord" class="borderBut">
+                    <button id="but2" class="for_button" style="position: absolute;"></button>     
+                    </div>  
+                 </div>
+            </div>
+            <div id="place_game_II">
+                <div id="place_for_game">
+                    <div class="side left"></div>
+                    <div class="side right"></div>
+                    <div class="side top"></div>
+                    <div class="side bottom"></div>
+                    <div id="for_game_layer1"></div>
+                    <div id="for_game_layer2"></div>                    
+                    <div id="top_label" style="color: #DB2323;" class="for_label">НУ, ПОГОДИ!</div>
+                    <div id="bottom_label" style="color: black;" class="for_label to_bottom">ЭЛЕКТРОНИКА</div>
+                    <div id="for_game_layer3"></div> 
+                    <div id="for_game_layer4"></div>  
+                </div>
+            </div>
+            <div id="img_game" class="img_game_class">
+                <span id="gameA" class="imgsGame var_game">GAME A</span>
+                <span id="gameB" class="imgsGame var_game">GAME B</span>
+                <span id="ochki" class="imgsGame"></span>
+                <span id="curTime" class="imgsGame"></span>
+                <img id="game_over" class='imgsGame' src="./img/game_over.png" alt="game_over">
+                <img id="rabbit" class='imgsGame' src="./img/zayac.png" alt="rabbit">
+                <img id="rabbit_top" class='imgsGame hend_z' src="./img/zayac_hend_top-fotor.png" alt="rabbit_hend">
+                <img id="rabbit_bottom" class='imgsGame hend_z' src="./img/zayac_hend_bottom.png" alt="rabbit_hend">
+                <img id="ch_top_left" class='imgsGame chiken' src="./img/chiken_top_left.png" alt="chiken_top_left">
+                <img id="ch_top_right" class='imgsGame chiken' src="./img/chiken_top_right.png" alt="chiken_top_right">
+                <img id="ch_bottom_left" class='imgsGame chiken' src="./img/chiken_bottom_left.png" alt="chiken_bottom_left">
+                <img id="ch_bottom_right" class='imgsGame chiken' src="./img/chiken_bottom_right.png" alt="chiken_bottom_right">
+                <img id="volk_right" class='imgsGame volk' src="./img/volk1.png" alt="volk_right">
+                <img id="volk_left" class='imgsGame volk' src="./img/volk2.png" alt="volk_left">
+                <img id="hend_top_left" class='imgsGame hend' src="./img/hend3.png" alt="hend_left">
+                <img id="hend_top_right" class='imgsGame hend' src="./img/hend2.png" alt="hend_right">
+                <img id="hend_bottom_right" class='imgsGame hend' src="./img/hend1.png" alt="hend_right">
+                <img id="hend_bottom_left" class='imgsGame hend' src="./img/hand4.png" alt="hend_left">                
+                <img id="bant1" class='imgsGame bant' src="./img/bant.png" alt="bant1">
+                <img id="bant2" class='imgsGame bant' src="./img/bant.png" alt="bant2">
+                <img id="bant3" class='imgsGame bant' src="./img/bant.png" alt="bant3">
+                <img id="bdyj_right1" class='imgsGame' src="./img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_left1" class='imgsGame' src="./img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_right2" class='imgsGame' src="./img/bdyj_right.png" alt="bdyj">
+                <img id="bdyj_left2" class='imgsGame' src="./img/bdyj_right.png" alt="bdyj">
+                <img id="cyplenok1_left" class='imgsGame cyplenok_left' src="./img/l1.png" alt="cyplenok1_left">
+                <img id="cyplenok2_left" class='imgsGame cyplenok_left' src="./img/l2.png" alt="cyplenok2_left">
+                <img id="cyplenok3_left" class='imgsGame cyplenok_left' src="./img/l3.png" alt="cyplenok3_left">
+                <img id="cyplenok4_left" class='imgsGame cyplenok_left' src="./img/l4.png" alt="cyplenok4_left">
+                <img id="cyplenok4_right" class='imgsGame cyplenok_right' src="./img/r1.png" alt="cyplenok4_right">
+                <img id="cyplenok3_right" class='imgsGame cyplenok_right' src="./img/r2.png" alt="cyplenok3_right">
+                <img id="cyplenok2_right" class='imgsGame cyplenok_right' src="./img/r3.png" alt="cyplenok2_right">
+                <img id="cyplenok1_right" class='imgsGame cyplenok_right' src="./img/r4.png" alt="cyplenok1_right">
+                <img id="eg1_left_top" src="./img/eg1.png" class="imgsGame eggs eg_left_top" alt="eg1">
+                <img id="eg2_left_top" src="./img/eg2.png" class="imgsGame eggs eg_left_top" alt="eg2">
+                <img id="eg3_left_top" src="./img/eg3.png" class="imgsGame eggs eg_left_top" alt="eg3">
+                <img id="eg4_left_top" src="./img/eg4.png" class="imgsGame eggs eg_left_top" alt="eg4">
+                <img id="eg5_left_top" src="./img/eg5.png" class="imgsGame eggs eg_left_top" alt="eg5">
+                <img id="eg1_left_bot" src="./img/eg6.png" class="imgsGame eggs eg_left_bot" alt="eg6">
+                <img id="eg2_left_bot" src="./img/eg7.png" class="imgsGame eggs eg_left_bot" alt="eg7">
+                <img id="eg3_left_bot" src="./img/eg8.png" class="imgsGame eggs eg_left_bot" alt="eg8">
+                <img id="eg4_left_bot" src="./img/eg9.png" class="imgsGame eggs eg_left_bot" alt="eg9">
+                <img id="eg5_left_bot" src="./img/eg10.png" class="imgsGame eggs eg_left_bot" alt="eg10">      
+                <img id="eg1_right_top" src="./img/eg11.png" class="imgsGame eggs eg_right_top" alt="eg11">
+                <img id="eg2_right_top" src="./img/eg12.png" class="imgsGame eggs eg_right_top" alt="eg12">
+                <img id="eg3_right_top" src="./img/eg13.png" class="imgsGame eggs eg_right_top" alt="eg13">
+                <img id="eg4_right_top" src="./img/eg14.png" class="imgsGame eggs eg_right_top" alt="eg14">
+                <img id="eg5_right_top" src="./img/eg15.png" class="imgsGame eggs eg_right_top" alt="eg15">
+                <img id="eg1_right_bot" src="./img/eg16.png" class="imgsGame eggs eg_right_bot" alt="eg16">
+                <img id="eg2_right_bot" src="./img/eg17.png" class="imgsGame eggs eg_right_bot" alt="eg17">
+                <img id="eg3_right_bot" src="./img/eg18.png" class="imgsGame eggs eg_right_bot" alt="eg18">
+                <img id="eg4_right_bot" src="./img/eg19.png" class="imgsGame eggs eg_right_bot" alt="eg19">
+                <img id="eg5_right_bot" src="./img/eg20.png" class="imgsGame eggs eg_right_bot" alt="eg20">                                          
+            </div>
+            <div id="place_game_III">
+                <img id="zvon" src="./img/zvon.png" alt="zvonok">
+                <div id="control">
+                    <button id="control_1" class="for_control_button"></button>
+                    <div id="control_2"></div>
+                    <div id="control_3" class="for_control_text">игра А</div>
+                    <div id="control_4" class="impuls"></div>
+                    <button id="control_5" class="for_control_button" ></button>
+                    <div id="control_6">∟</div>
+                    <div id="control_7" class="for_control_text">игра Б</div>
+                    <div id="control_8" class="impuls"></div>
+                    <button id="control_9" class="for_control_button"></button>
+                    <div id="control_10" class="for_control_text">время</div>
+                </div>
+                 <div id="but_right">
+                    <div id="img3"></div>
+                    <div id="top_bord_right" class="borderBut">
+                         <button id="but3" class="for_button" style="position: absolute;"></button>
+                    </div>
+                    <div id="img4"></div>
+                    <div id="bot_bord_right" class="borderBut">
+                        <button id="but4" class="for_button" style="position: absolute;"></button>     
+                    </div>  
+                 </div>               
+            </div>
+        </div>
+     <canvas id="game_canvas" ></canvas>   
+    </div>
+   <dialog id="modal_win">
+        <div style="width: 100%; text-align: right; margin-bottom: 10px;">
+            <button id="but_close_modal" style="background: #DB2323; color: white; border: none; padding: 5px 15px; font-weight: bold; cursor: pointer; font-family: 'Courier New', monospace; letter-spacing: 1px;">ВЫХОД ИЗ ДЕМО ✕</button>
+        </div>
+
+        <div class="ussr-title">АВТОМАТИЧЕСКАЯ ИНСТРУКЦИЯ СХЕМЫ ИМ-02</div>
+
+        <!-- Интерактивная SVG Схема игры -->
+        <svg id="ussr_svg_guide" viewBox="0 0 500 260" width="100%" xmlns="http://w3.org">
+            <!-- Корпус прибора -->
+            <rect x="10" y="10" width="480" height="240" rx="15" fill="#e0e0e0" stroke="#7a7a7a" stroke-width="4"/>
+            <rect x="18" y="18" width="464" height="224" rx="10" fill="none" stroke="#db2323" stroke-width="2"/>
+            
+            <!-- Экран игры -->
+            <rect x="110" y="35" width="280" height="180" fill="#7f8c7d" stroke="#1a1a1a" stroke-width="4"/>
+            <rect x="115" y="40" width="270" height="170" fill="none" stroke="#db2323" stroke-width="1.5"/>
+            
+            <!-- Надписи на корпусе -->
+            <text x="250" y="30" font-family="'Roboto', sans-serif" font-size="12" font-weight="900" fill="#db2323" text-anchor="middle">НУ, ПОГОДИ!</text>
+            <text x="250" y="232" font-family="'Roboto', sans-serif" font-size="11" font-weight="900" fill="#1a1a1a" text-anchor="middle">ЭЛЕКТРОНИКА</text>
+            
+            <!-- ЛЕВЫЕ КНОПКИ УПРАВЛЕНИЯ -->
+            <!-- Верхняя левая (but1) -->
+            <circle id="svg_but1" cx="45" cy="110" r="14" fill="#db2323" stroke="#9e1616" stroke-width="2"/>
+            <polygon points="20,110 32,103 32,117" fill="#1a1a1a"/>
+            <!-- Нижная левая (but2) -->
+            <circle id="svg_but2" cx="45" cy="180" r="14" fill="#db2323" stroke="#9e1616" stroke-width="2"/>
+            <polygon points="20,180 32,173 32,187" fill="#1a1a1a"/>
+            
+            <!-- ПРАВЫЕ КНОПКИ УПРАВЛЕНИЯ -->
+            <!-- Верхняя правая (but3) -->
+            <circle id="svg_but3" cx="455" cy="110" r="14" fill="#db2323" stroke="#9e1616" stroke-width="2"/>
+            <polygon points="480,110 468,103 468,117" fill="#1a1a1a"/>
+            <!-- Нижняя правая (but4) -->
+            <circle id="svg_but4" cx="455" cy="180" r="14" fill="#db2323" stroke="#9e1616" stroke-width="2"/>
+            <polygon points="480,180 468,173 468,187" fill="#1a1a1a"/>
+            
+            <!-- СИСТЕМНЫЕ КНОПКИ СХЕМЫ (Правый верхний угол) -->
+            <!-- Кнопка Игра А (control_1) -->
+            <rect id="svg_ctrl1" x="430" y="32" width="22" height="10" rx="3" fill="#ff7f7f" stroke="#db2323"/>
+            <text x="425" y="41" font-family="monospace" font-size="8" font-weight="bold" fill="#1a1a1a" text-anchor="end">игра А</text>
+            
+            <!-- Кнопка Игра Б (control_5) -->
+            <rect id="svg_ctrl5" x="430" y="52" width="22" height="10" rx="3" fill="#ff7f7f" stroke="#db2323"/>
+            <text x="425" y="61" font-family="monospace" font-size="8" font-weight="bold" fill="#1a1a1a" text-anchor="end">игра Б</text>
+
+            <!-- ГРАФИКА НА ЭКРАНЕ (Имитация ЖК-сегментов) -->
+            <!-- Волк влево -->
+            <g id="svg_volk_l" opacity="0.15">
+                <ellipse cx="220" cy="130" rx="15" ry="25" fill="#1a1a1a"/>
+                <path d="M220,120 L190,110 L195,125 Z" fill="#1a1a1a"/> <!-- Корзина -->
+            </g>
+            <!-- Волк вправо -->
+            <g id="svg_volk_r" opacity="0.15">
+                <ellipse cx="280" cy="130" rx="15" ry="25" fill="#1a1a1a"/>
+                <path d="M280,120 L310,110 L305,125 Z" fill="#1a1a1a"/> <!-- Корзина -->
+            </g>
+            
+            <!-- Траектории яиц (Лотки) -->
+            <line x1="115" y1="80" x2="180" y2="110" stroke="#1a1a1a" stroke-width="3" stroke-dasharray="4,4"/>
+            <line x1="115" y1="140" x2="180" y2="160" stroke="#1a1a1a" stroke-width="3" stroke-dasharray="4,4"/>
+            <line x1="385" y1="80" x2="320" y2="110" stroke="#1a1a1a" stroke-width="3" stroke-dasharray="4,4"/>
+            <line x1="385" y1="140" x2="320" y2="160" stroke="#1a1a1a" stroke-width="3" stroke-dasharray="4,4"/>
+
+            <!-- Демо-яйца на схеме -->
+            <ellipse id="svg_egg_l" cx="145" cy="94" rx="6" ry="4" fill="#1a1a1a" opacity="0.15"/>
+            <ellipse id="svg_egg_r" cx="355" cy="94" rx="6" ry="4" fill="#1a1a1a" opacity="0.15"/>
+            
+            <!-- Цыплята (Штраф) -->
+            <circle id="svg_chiken" cx="250" cy="70" r="7" fill="#1a1a1a" opacity="0.15"/>
+        </svg>
+
+        <!-- Текстовое описание текущего шага демо-режима -->
+        <div id="svg_instruction_text" class="ussr-text">
+            Загрузка демо-инструкции...
+        </div>
+    </dialog>
+    <audio src="./audio/eg.mp3" autoplay="autoplay"></audio>
+    <audio src="./audio/bdyj.mp3" autoplay="autoplay"></audio>
+</body>
+<script src="./scripts/main.js" type="module"></script>
+</html>

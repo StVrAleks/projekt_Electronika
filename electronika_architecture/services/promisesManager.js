@@ -32,7 +32,7 @@ export class PromiseGame{
         visibleManager.addVisible(obj_next);
         soundClickEg(GAME_CONFIG.SOUND_EGG)
         resolve(result);
-      }, 1000/time);
+      }, time);
   });
 }
 
